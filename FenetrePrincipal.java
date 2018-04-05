@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
+import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JSplitPane;
 import java.awt.FlowLayout;
@@ -100,8 +101,14 @@ public class FenetrePrincipal extends JFrame {
 		getContentPane().setLayout(null);
 		
 		//	Fond d'ecran de la table. ( Panel Principal 
+		JPanel Conteneur = new JPanel();
+		
+		
 		
 			
+		
+		
+		
 		this.TableImg = new JPanel();
 		
 		
@@ -122,8 +129,11 @@ public class FenetrePrincipal extends JFrame {
 				
 		//Boutton Spinner
 				
-				this.spinner = new JSpinner();
+				SpinnerModel valeur = new SpinnerNumberModel(10,10,1000,1); 
+				spinner = new JSpinner(valeur);
 				ButtonPanel.add(spinner);
+				
+		
 				
 		//Boutton Suivre		
 				
@@ -198,10 +208,11 @@ public class FenetrePrincipal extends JFrame {
 				miseAdversaire = new MisePanel(20);
 				miseAdversaire.setBounds(410, 132, 92, 35);
 				CardPanel.add(miseAdversaire);
+				
+				Boutton btnFermer = new Boutton("Fermer");
+				btnFermer.setBounds(12, 12, 117, 25);
+				CardPanel.add(btnFermer);
 
-		
-		
-		
 		
 		this.setContentPane(TableImg);   
 		
