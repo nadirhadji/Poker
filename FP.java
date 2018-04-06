@@ -80,101 +80,101 @@ private static final long serialVersionUID = 1L;
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
-		
-		////////////////////////////////Fenetre Parametrage /////////////////////////
-		
-		Parametrage = new JPanel();
-		contentPane.add(Parametrage, "Parametre");
-		Parametrage.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Nom Joueur 1");
-		lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		lblNewLabel.setBounds(218, 113, 156, 52);
-		Parametrage.add(lblNewLabel);
-		
-		JLabel label = new JLabel("Nom Joueur 2");
-		label.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		label.setBounds(218, 177, 156, 52);
-		Parametrage.add(label);
-		
-		JLabel label_1 = new JLabel("Solde Joueur 1");
-		label_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		label_1.setBounds(218, 241, 156, 52);
-		Parametrage.add(label_1);
-		
-		JLabel label_2 = new JLabel("Solde Joueur 2");
-		label_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-		label_2.setBounds(218, 305, 156, 52);
-		Parametrage.add(label_2);
-		
-		textField = new JTextField();
-		textField.setBounds(433, 119, 156, 41);
-		Parametrage.add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(433, 174, 156, 41);
-		Parametrage.add(textField_1);
-		
-		JSpinner spinner_1 = new JSpinner();
-		spinner_1.setBounds(433, 251, 156, 34);
-		Parametrage.add(spinner_1);
-		
-		JSpinner spinner_2 = new JSpinner();
-		spinner_2.setBounds(433, 315, 156, 34);
-		Parametrage.add(spinner_2);
-		
-		JButton btnNewButton = new JButton("OK");
-		btnNewButton.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-		Parametrage.setVisible(false);
-		Acceuil.setVisible(true);
-		
-		}
-		});
-		btnNewButton.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-		}
-		});
-		btnNewButton.setBounds(328, 402, 150, 52);
-		Parametrage.add(btnNewButton);
-
-		
-
-		
-		///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
-		
-		Acceuil = new JPanel();
-		contentPane.add(Acceuil, "Acceuil");
-		Acceuil.setLayout(null);
-		
-		JButton jouer = new JButton("Jouer");
-		jouer.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
 				
-				Acceuil.setVisible(false);
-				FPP.setVisible(true);
-			}
-		});
-		jouer.setBounds(344, 181, 174, 75);
-		Acceuil.add(jouer);
-		
-		JButton parametrer = new JButton("Parametre");
-		parametrer.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+				////////////////////////////////Fenetre Parametrage /////////////////////////
 				
-				Acceuil.setVisible(false);
+				Parametrage = new JPanel();
+				contentPane.add(Parametrage, "Parametre");
+				Parametrage.setLayout(null);
+				
+				JLabel lblNewLabel = new JLabel("Nom Joueur 1");
+				lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+				lblNewLabel.setBounds(218, 113, 156, 52);
+				Parametrage.add(lblNewLabel);
+				
+				JLabel label = new JLabel("Nom Joueur 2");
+				label.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+				label.setBounds(218, 177, 156, 52);
+				Parametrage.add(label);
+				
+				JLabel label_1 = new JLabel("Solde Joueur 1");
+				label_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+				label_1.setBounds(218, 241, 156, 52);
+				Parametrage.add(label_1);
+				
+				JLabel label_2 = new JLabel("Solde Joueur 2");
+				label_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
+				label_2.setBounds(218, 305, 156, 52);
+				Parametrage.add(label_2);
+				
+				textField = new JTextField();
+				textField.setBounds(433, 119, 156, 41);
+				Parametrage.add(textField);
+				textField.setColumns(10);
+				
+				textField_1 = new JTextField();
+				textField_1.setColumns(10);
+				textField_1.setBounds(433, 174, 156, 41);
+				Parametrage.add(textField_1);
+				
+				JSpinner spinner_1 = new JSpinner();
+				spinner_1.setBounds(433, 251, 156, 34);
+				Parametrage.add(spinner_1);
+				
+				JSpinner spinner_2 = new JSpinner();
+				spinner_2.setBounds(433, 315, 156, 34);
+				Parametrage.add(spinner_2);
+				
+				JButton btnNewButton = new JButton("OK");
+				btnNewButton.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
 				Parametrage.setVisible(false);
+				Acceuil.setVisible(true);
 				
+				}
+				});
+				btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+				});
+				btnNewButton.setBounds(328, 402, 150, 52);
+				Parametrage.add(btnNewButton);
+		
 				
-			}
-		});
-		parametrer.setBounds(350, 284, 168, 75);
-		Acceuil.add(parametrer);
+		
+				
+				///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
+				
+				Acceuil = new JPanel();
+				contentPane.add(Acceuil, "Acceuil");
+				Acceuil.setLayout(null);
+				
+				JButton jouer = new JButton("Jouer");
+				jouer.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+						Acceuil.setVisible(false);
+						FPP.setVisible(true);
+					}
+				});
+				jouer.setBounds(344, 181, 174, 75);
+				Acceuil.add(jouer);
+				
+				JButton parametrer = new JButton("Parametre");
+				parametrer.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+						Acceuil.setVisible(false);
+						Parametrage.setVisible(false);
+						
+						
+					}
+				});
+				parametrer.setBounds(350, 284, 168, 75);
+				Acceuil.add(parametrer);
 		
 		
 		
