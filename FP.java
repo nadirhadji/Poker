@@ -21,20 +21,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-
 import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 import Modele.Partie;
+
+import javax.swing.event.ChangeEvent;
 
 public class FP extends JFrame {
 
@@ -42,7 +33,7 @@ public class FP extends JFrame {
 private static final long serialVersionUID = 1L;
 	
 	private JPanel Acceuil;
-	private JPanel Parametrage;
+	private Parametre Parametre;
 	private JPanel FPP;
 	private Boutton BtnMiser;
 	private Boutton btnParole;
@@ -63,13 +54,6 @@ private static final long serialVersionUID = 1L;
 	private MisePanel Pot;
 	private MisePanel miseAdversaire;
 	private int SpinnerMise;
-	private Socket	client;
-	private SocketAddress serverSockAddress;
-	private InetAddress serverIPAddress;
-	private int serverPort = 10000;
-	private String hostName = "127.0.0.1";
-	private ObjectOutputStream writer;
-	private ObjectInputStream reader;
 	private Partie partie;
 	
 	// LArgeur des petite cartes
@@ -89,47 +73,7 @@ private static final long serialVersionUID = 1L;
 	 */
 	public FP() {
 		
-		client = new Socket();
-		
-		try 
-		{
-			serverIPAddress = InetAddress.getByName(hostName);
-		}
-		catch(UnknownHostException ex)
-		{
-			System.out.println("Aucun hote");
-			return;
-		}
-		
-		serverSockAddress = new InetSocketAddress(serverIPAddress, serverPort);
-		
-		try
-		{
-			client.connect(serverSockAddress);
-			System.out.println("Connection établie");
-		}
-		catch(IOException ex)
-		{
-			System.out.println("Client : echec de la connection");
-		}
-		
-		try
-		{
-			reader = new ObjectInputStream(client.getInputStream());
-			writer = new ObjectOutputStream(client.getOutputStream());
-			
-			System.out.println("Reader et writer opérationels");
-		}
-		catch(SocketException ex){
-			System.out.println("Error in socket reader or writer ");
-			return;
-		}
-		catch(IOException ex)
-		{
-			System.out.println("Error in readSocket");
-			return;
-
-		} 
+		partie = new Partie("LOL","MDR",5000);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -144,101 +88,49 @@ private static final long serialVersionUID = 1L;
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 				
-				////////////////////////////////Fenetre Parametrage /////////////////////////
-				
-				Parametrage = new JPanel();
-				contentPane.add(Parametrage, "Parametre");
-				Parametrage.setLayout(null);
-				
-				JLabel lblNewLabel = new JLabel("Nom Joueur 1");
-				lblNewLabel.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-				lblNewLabel.setBounds(218, 113, 156, 52);
-				Parametrage.add(lblNewLabel);
-				
-				JLabel label = new JLabel("Nom Joueur 2");
-				label.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-				label.setBounds(218, 177, 156, 52);
-				Parametrage.add(label);
-				
-				JLabel label_1 = new JLabel("Solde Joueur 1");
-				label_1.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-				label_1.setBounds(218, 241, 156, 52);
-				Parametrage.add(label_1);
-				
-				JLabel label_2 = new JLabel("Solde Joueur 2");
-				label_2.setBorder(new LineBorder(new Color(0, 0, 0), 2));
-				label_2.setBounds(218, 305, 156, 52);
-				Parametrage.add(label_2);
-				
-				textField = new JTextField();
-				textField.setBounds(433, 119, 156, 41);
-				Parametrage.add(textField);
-				textField.setColumns(10);
-				
-				textField_1 = new JTextField();
-				textField_1.setColumns(10);
-				textField_1.setBounds(433, 174, 156, 41);
-				Parametrage.add(textField_1);
-				
-				JSpinner spinner_1 = new JSpinner();
-				spinner_1.setBounds(433, 251, 156, 34);
-				Parametrage.add(spinner_1);
-				
-				JSpinner spinner_2 = new JSpinner();
-				spinner_2.setBounds(433, 315, 156, 34);
-				Parametrage.add(spinner_2);
-				
-				JButton btnNewButton = new JButton("OK");
-				btnNewButton.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-				Parametrage.setVisible(false);
-				Acceuil.setVisible(true);
-				
-				}
-				});
-				btnNewButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-				});
-				btnNewButton.setBounds(328, 402, 150, 52);
-				Parametrage.add(btnNewButton);
+///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
 		
+			Acceuil = new JPanel();
+			contentPane.add(Acceuil, "Acceuil");
+			Acceuil.setLayout(null);
+			
+			JButton jouer = new JButton("Jouer");
+			jouer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				
+				Acceuil.setVisible(false);
+				FPP.setVisible(true);
+			}
+			});
+			jouer.setBounds(344, 181, 174, 75);
+			Acceuil.add(jouer);
+			
+			JButton parametrer = new JButton("Parametre");
+			parametrer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				Acceuil.setVisible(false);
+				Parametre.setVisible(true);
+				
+				
+			}
+			});
+			parametrer.setBounds(350, 284, 168, 75);
+			Acceuil.add(parametrer);
+
 		
-				
-				///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
-				
-				Acceuil = new JPanel();
-				contentPane.add(Acceuil, "Acceuil");
-				Acceuil.setLayout(null);
-				
-				JButton jouer = new JButton("Jouer");
-				jouer.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						
-						Acceuil.setVisible(false);
-						FPP.setVisible(true);
-					}
-				});
-				jouer.setBounds(344, 181, 174, 75);
-				Acceuil.add(jouer);
-				
-				JButton parametrer = new JButton("Parametre");
-				parametrer.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						
-						Acceuil.setVisible(false);
-						Parametrage.setVisible(false);
-						
-						
-					}
-				});
-				parametrer.setBounds(350, 284, 168, 75);
-				Acceuil.add(parametrer);
 		
+		
+		
+		////////////////////////////////Fenetre Parametrage /////////////////////////
+				
+				Parametre = new Parametre();
+				contentPane.add(Parametre, "Parametre");
+				Parametre.actionOK(Acceuil,Parametre);
+				
+				
 		
 		
 		
@@ -257,40 +149,41 @@ private static final long serialVersionUID = 1L;
 				ButtonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 				//Boutton Miser	
 				
-				this.BtnMiser = new Boutton("Miser",writer);
+				this.BtnMiser = new Boutton("Miser",0);
 				ButtonPanel.add(BtnMiser);
-				BtnMiser.act(BtnMiser.getName(), partie.getTourDe(),
-						SpinnerMise  );
+				BtnMiser.act(partie.getTourDe());
 				
 		//Boutton Spinner
 				
 				this.spinner = new JSpinner();
+				
+				
+				
 				spinner.addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent e) {
 						
 						SpinnerMise = Integer.parseInt(spinner.getValue().toString());
+						BtnMiser.setMise(SpinnerMise);
 						
 					}
 				});
+				
+				
 				ButtonPanel.add(spinner);
 				
 		//Boutton Suivre		
 				
-				this.btnSuivre = new Boutton("Suivre", writer);
+				this.btnSuivre = new Boutton("Suivre",0);
 				ButtonPanel.add(btnSuivre);
-				btnSuivre.act(btnSuivre.getName(), partie.getTourDe(),
-						0  );
 				
 		//Boutton Passer
 				
-				this.btnPasser = new Boutton("Passer", writer);
+				this.btnPasser = new Boutton("Passer",0);
 				ButtonPanel.add(btnPasser);
-				btnPasser.act(btnPasser.getName(), partie.getTourDe(),
-						0  );
 				
 		//Boutton Parole		
 				
-				this.btnParole = new Boutton("Parole", writer);
+				this.btnParole = new Boutton("Parole",0);
 				
 				ButtonPanel.add(btnParole);
 				
