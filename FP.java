@@ -21,8 +21,20 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
+import Modele.Partie;
 
 public class FP extends JFrame {
 
@@ -51,6 +63,14 @@ private static final long serialVersionUID = 1L;
 	private MisePanel Pot;
 	private MisePanel miseAdversaire;
 	private int SpinnerMise;
+	private Socket	client;
+	private SocketAddress serverSockAddress;
+	private InetAddress serverIPAddress;
+	private int serverPort = 10000;
+	private String hostName = "127.0.0.1";
+	private ObjectOutputStream writer;
+	private ObjectInputStream reader;
+	private Partie partie;
 	
 	// LArgeur des petite cartes
 	private static final int CLP=49;
@@ -68,6 +88,49 @@ private static final long serialVersionUID = 1L;
 	 * Create the frame.
 	 */
 	public FP() {
+		
+		client = new Socket();
+		
+		try 
+		{
+			serverIPAddress = InetAddress.getByName(hostName);
+		}
+		catch(UnknownHostException ex)
+		{
+			System.out.println("Aucun hote");
+			return;
+		}
+		
+		serverSockAddress = new InetSocketAddress(serverIPAddress, serverPort);
+		
+		try
+		{
+			client.connect(serverSockAddress);
+			System.out.println("Connection établie");
+		}
+		catch(IOException ex)
+		{
+			System.out.println("Client : echec de la connection");
+		}
+		
+		try
+		{
+			reader = new ObjectInputStream(client.getInputStream());
+			writer = new ObjectOutputStream(client.getOutputStream());
+			
+			System.out.println("Reader et writer opérationels");
+		}
+		catch(SocketException ex){
+			System.out.println("Error in socket reader or writer ");
+			return;
+		}
+		catch(IOException ex)
+		{
+			System.out.println("Error in readSocket");
+			return;
+
+		} 
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setType(Type.UTILITY);
@@ -194,8 +257,10 @@ private static final long serialVersionUID = 1L;
 				ButtonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 				//Boutton Miser	
 				
-				this.BtnMiser = new Boutton("Miser");
+				this.BtnMiser = new Boutton("Miser",writer);
 				ButtonPanel.add(BtnMiser);
+				BtnMiser.act(BtnMiser.getName(), partie.getTourDe(),
+						SpinnerMise  );
 				
 		//Boutton Spinner
 				
@@ -211,17 +276,21 @@ private static final long serialVersionUID = 1L;
 				
 		//Boutton Suivre		
 				
-				this.btnSuivre = new Boutton("Suivre");
+				this.btnSuivre = new Boutton("Suivre", writer);
 				ButtonPanel.add(btnSuivre);
+				btnSuivre.act(btnSuivre.getName(), partie.getTourDe(),
+						0  );
 				
 		//Boutton Passer
 				
-				this.btnPasser = new Boutton("Passer");
+				this.btnPasser = new Boutton("Passer", writer);
 				ButtonPanel.add(btnPasser);
+				btnPasser.act(btnPasser.getName(), partie.getTourDe(),
+						0  );
 				
 		//Boutton Parole		
 				
-				this.btnParole = new Boutton("Parole");
+				this.btnParole = new Boutton("Parole", writer);
 				
 				ButtonPanel.add(btnParole);
 				
