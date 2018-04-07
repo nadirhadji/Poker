@@ -35,6 +35,7 @@ import java.lang.ClassNotFoundException;
 
 import javax.swing.event.ChangeListener;
 
+import Modele.Message;
 import Modele.Partie;
 
 import javax.swing.event.ChangeEvent;
@@ -133,23 +134,7 @@ private static final long serialVersionUID = 1L;
 			System.out.println("IHM : echec de la connection");
 		}
 		
-		try
-		{
-			reader = new ObjectInputStream(client.getInputStream());
-			writer = new ObjectOutputStream(client.getOutputStream());
-			
-			System.out.println("IHM : Reader et writer opérationels");
-		}
-		catch(SocketException ex){
-			System.out.println("IHM : Error in socket reader or writer ");
-			return;
-		}
-		catch(IOException ex)
-		{
-			System.out.println("IHM : Error in readSocket");
-			return;
-
-		}
+		
 		
 		
 ///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
@@ -328,7 +313,27 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	public void listen()
+	
+	
 	{
+		
+		try
+		{
+			reader = new ObjectInputStream(client.getInputStream());
+			writer = new ObjectOutputStream(client.getOutputStream());
+			
+			System.out.println("IHM : Reader et writer opérationels");
+		}
+		catch(SocketException ex){
+			System.out.println("IHM : Error in socket reader or writer ");
+			
+		}
+		catch(IOException ex)
+		{
+			System.out.println("IHM : Error in readSocket");
+			
+
+		}
 		while(!client.isClosed())
 		{
 			boolean b = false;
@@ -361,6 +366,19 @@ private static final long serialVersionUID = 1L;
 				System.out.println("echec de la fermeture du socket dans l'IHM");
 			}
 		
+		}
+	}
+	
+	public void testWrite()
+	{
+		Message msg = new Message(0,"Miser",partie.getTourDe() );
+		try
+		{
+			writer.writeObject(msg);
+		}
+		catch(IOException e)
+		{
+			System.out.println("echec de l'envoie du premier message");
 		}
 	}
 	
