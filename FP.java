@@ -21,6 +21,18 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.lang.ClassNotFoundException;
+
+
 import javax.swing.event.ChangeListener;
 
 import Modele.Partie;
@@ -55,6 +67,13 @@ private static final long serialVersionUID = 1L;
 	private MisePanel miseAdversaire;
 	private int SpinnerMise;
 	private Partie partie;
+	private Socket	client;
+	private SocketAddress serverSockAddress;
+	private InetAddress serverIPAddress;
+	private int serverPort = 10000;
+	private String hostName = "127.0.0.1";
+	private ObjectOutputStream writer;
+	private ObjectInputStream reader;
 	
 	// LArgeur des petite cartes
 	private static final int CLP=49;
@@ -71,9 +90,9 @@ private static final long serialVersionUID = 1L;
 	/**
 	 * Create the frame.
 	 */
-	public FP() {
+	public FP(Partie partie) {
 		
-		partie = new Partie("LOL","MDR",5000);
+		this.partie = partie;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -87,7 +106,52 @@ private static final long serialVersionUID = 1L;
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
+		
+///////////////////////////////  Socket  			//////////////////////////////////
 				
+		client = new Socket();
+		
+		try 
+		{
+			serverIPAddress = InetAddress.getByName(hostName);
+		}
+		catch(UnknownHostException ex)
+		{
+			System.out.println("IHM : Aucun hote");
+			return;
+		}
+		
+		serverSockAddress = new InetSocketAddress(serverIPAddress, serverPort);
+		
+		try
+		{
+			client.connect(serverSockAddress);
+			System.out.println("IHM : Connection établie");
+		}
+		catch(IOException ex)
+		{
+			System.out.println("IHM : echec de la connection");
+		}
+		
+		try
+		{
+			reader = new ObjectInputStream(client.getInputStream());
+			writer = new ObjectOutputStream(client.getOutputStream());
+			
+			System.out.println("IHM : Reader et writer opérationels");
+		}
+		catch(SocketException ex){
+			System.out.println("IHM : Error in socket reader or writer ");
+			return;
+		}
+		catch(IOException ex)
+		{
+			System.out.println("IHM : Error in readSocket");
+			return;
+
+		}
+		
+		
 ///////////////////////////////  Fenetre d'acceuil  /////////////////////////////////////
 		
 			Acceuil = new JPanel();
@@ -147,9 +211,9 @@ private static final long serialVersionUID = 1L;
 				JPanel ButtonPanel = new JPanel();
 				FPP.add(ButtonPanel, BorderLayout.SOUTH);
 				ButtonPanel.setLayout(new GridLayout(0, 5, 0, 0));
-				//Boutton Miser	
+		//Boutton Miser	
 				
-				this.BtnMiser = new Boutton("Miser",0);
+				this.BtnMiser = new Boutton("Miser",0,writer);
 				ButtonPanel.add(BtnMiser);
 				BtnMiser.act(partie.getTourDe());
 				
@@ -173,17 +237,17 @@ private static final long serialVersionUID = 1L;
 				
 		//Boutton Suivre		
 				
-				this.btnSuivre = new Boutton("Suivre",0);
+				this.btnSuivre = new Boutton("Suivre",0,writer);
 				ButtonPanel.add(btnSuivre);
 				
 		//Boutton Passer
 				
-				this.btnPasser = new Boutton("Passer",0);
+				this.btnPasser = new Boutton("Passer",0,writer);
 				ButtonPanel.add(btnPasser);
 				
 		//Boutton Parole		
 				
-				this.btnParole = new Boutton("Parole",0);
+				this.btnParole = new Boutton("Parole",0,writer);
 				
 				ButtonPanel.add(btnParole);
 				
@@ -261,6 +325,43 @@ private static final long serialVersionUID = 1L;
 		
 		this.setVisible(true);
 	
+	}
+	
+	public void listen()
+	{
+		while(!client.isClosed())
+		{
+			boolean b = false;
+			// plus tard, passer b en attribut de la fenetre
+			// b sera initialisé a false
+			// b sera modifié lorsque le bouton quitter est pressé
+	
+			try
+			{
+				partie = (Partie)reader.readObject();
+				System.out.println(partie);
+				b = true;
+				
+			}catch(IOException e)
+			{
+				System.out.println("IOException dans l'IHM");
+				
+			}catch(ClassNotFoundException e)
+			{
+				System.out.println("ClassNotFoundException dans l'IHM");
+				
+			}
+			
+			if (b) 
+				try
+			{
+					client.close();
+			}catch(IOException e)
+			{
+				System.out.println("echec de la fermeture du socket dans l'IHM");
+			}
+		
+		}
 	}
 	
 	
@@ -364,7 +465,8 @@ private static final long serialVersionUID = 1L;
 	
 	public static void main(String[] args) {
 		
-		new FP();
+		Partie partie = new Partie("alex", "nadir", 420);
+		new FP(partie);
 
 	}
 }

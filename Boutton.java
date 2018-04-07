@@ -18,16 +18,16 @@ public class Boutton extends JButton {
 	private static final long serialVersionUID = 1L;
 	private Joueur j;
 	private int mise;
+	private String nom;
+	private ObjectOutputStream writer;
+	private Message message;
 	
-//	private ObjectOutputStream writer;
-//	private Message message;
-	
-	public Boutton(String x, int mise /*, ObjectOutputStream writer*/)
+	public Boutton(String x, int mise , ObjectOutputStream writer)
 	{
 		super();
 		this.mise = mise;
-		//this.writer = writer;
-	//	message = new Message();
+		this.writer = writer;
+		message = new Message();
 		
 		this.setText(x);
 		
@@ -35,7 +35,7 @@ public class Boutton extends JButton {
 	}
 		
 	
-	public void act(Joueur j)
+	public void act(final Joueur j)
 	{
 	
 		this.addMouseListener(new MouseAdapter() {
@@ -63,9 +63,9 @@ public class Boutton extends JButton {
 				// generer le msg en fonction des attributs
 				// recuperer la valeur du spiner pour miser
 				
-				//message.setMessage(mise, nom, j);
+				message.setMessage(mise, nom, j);
 				System.out.println(mise);
-				/*
+				
 				try
 				{
 					writer.writeObject(message);
@@ -73,7 +73,7 @@ public class Boutton extends JButton {
 				}catch(IOException x)
 				{
 					System.out.println("Erreur lors de l'envoie du message");
-				}*/
+				}
 			}
 			
 			});

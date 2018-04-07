@@ -32,6 +32,7 @@ import javax.swing.border.MatteBorder;
 
 import Modele.Carte;
 import Modele.Couleur;
+import Modele.Partie;
 
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
@@ -48,10 +49,23 @@ import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 import javax.swing.JFormattedTextField;
 
+import java.net.Socket;
+import java.net.SocketAddress;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.net.InetSocketAddress;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+
 public class FenetrePrincipal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	
+	private Partie partie;
 	private JPanel TableImg;
 	private Boutton BtnMiser;
 	private Boutton btnParole;
@@ -71,6 +85,14 @@ public class FenetrePrincipal extends JFrame {
 	private MisePanel mise;
 	private MisePanel Pot;
 	private MisePanel miseAdversaire;
+	private Socket	client;
+	private SocketAddress serverSockAddress;
+	private InetAddress serverIPAddress;
+	private int serverPort = 10000;
+	private String hostName = "127.0.0.1";
+	private ObjectOutputStream writer;
+	private ObjectInputStream reader;
+	// ajouter un attribut socket
 	
 	// LArgeur des petite cartes
 	private static final int CLP=49;
@@ -85,6 +107,50 @@ public class FenetrePrincipal extends JFrame {
 	
 	
 	public FenetrePrincipal() {
+		// constructeur, créer le socket ici
+		// on ouvre le canal de communication
+		
+		client = new Socket();
+		
+		try 
+		{
+			serverIPAddress = InetAddress.getByName(hostName);
+		}
+		catch(UnknownHostException ex)
+		{
+			System.out.println("Aucun hote");
+			return;
+		}
+		
+		serverSockAddress = new InetSocketAddress(serverIPAddress, serverPort);
+		
+		try
+		{
+			client.connect(serverSockAddress);
+			System.out.println("Connection établie");
+		}
+		catch(IOException ex)
+		{
+			System.out.println("Client : echec de la connection");
+		}
+		
+		try
+		{
+			reader = new ObjectInputStream(client.getInputStream());
+			writer = new ObjectOutputStream(client.getOutputStream());
+			
+			System.out.println("Reader et writer opérationels");
+		}
+		catch(SocketException ex){
+			System.out.println("Error in socket reader or writer ");
+			return;
+		}
+		catch(IOException ex)
+		{
+			System.out.println("Error in readSocket");
+			return;
+
+		}
 		
 		getContentPane().setBounds(new Rectangle(0, 0, 0, 0));
 		
@@ -124,8 +190,12 @@ public class FenetrePrincipal extends JFrame {
 		
 		//Boutton Miser	
 		
-				this.BtnMiser = new Boutton("Miser");
+				this.BtnMiser = new Boutton("Miser", writer);
 				ButtonPanel.add(BtnMiser);
+				BtnMiser.act(BtnMiser.getName(), partie.getTourDe(),
+						Integer.parseInt(spinner.getValue().toString())  );
+				
+				
 				
 		//Boutton Spinner
 				
@@ -137,19 +207,21 @@ public class FenetrePrincipal extends JFrame {
 				
 		//Boutton Suivre		
 				
-				this.btnSuivre = new Boutton("Suivre");
+				this.btnSuivre = new Boutton("Suivre", writer);
 				ButtonPanel.add(btnSuivre);
+				btnSuivre.act(btnSuivre.getName(), partie.getTourDe(), 0);
 				
 		//Boutton Passer
 				
-				this.btnPasser = new Boutton("Passer");
+				this.btnPasser = new Boutton("Passer", writer);
 				ButtonPanel.add(btnPasser);
+				btnPasser.act(btnPasser.getName(), partie.getTourDe(), 0);
 				
 		//Boutton Parole		
 				
-				this.btnParole = new Boutton("Parole");
-				
+				this.btnParole = new Boutton("Parole", writer);
 				ButtonPanel.add(btnParole);
+				btnParole.act(btnParole.getName(), partie.getTourDe(), 0);
 				
 				CardPanel = new TablePanel();
 				TableImg.add(CardPanel, BorderLayout.CENTER);
@@ -209,7 +281,7 @@ public class FenetrePrincipal extends JFrame {
 				miseAdversaire.setBounds(410, 132, 92, 35);
 				CardPanel.add(miseAdversaire);
 				
-				Boutton btnFermer = new Boutton("Fermer");
+				Boutton btnFermer = new Boutton("Fermer",writer);
 				btnFermer.setBounds(12, 12, 117, 25);
 				CardPanel.add(btnFermer);
 
@@ -327,5 +399,4 @@ public class FenetrePrincipal extends JFrame {
 	
 	new FenetrePrincipal();
 
-}
-}
+}}
