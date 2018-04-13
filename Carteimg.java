@@ -64,7 +64,7 @@ public class Carteimg extends JLabel{
 		else
 		{
 			try {
-				img = ImageIO.read(new File("Image/"+carte.getValeur()+"_"+carte.getCouleur().toLowerCase()+".png"));
+				img = ImageIO.read(new File("Image/"+carte.getValeur()+"_"+carte.getCouleur().toString().toLowerCase()+".png"));
 			} catch (IOException e) {
 				
 				e.printStackTrace();

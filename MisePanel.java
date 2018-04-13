@@ -13,10 +13,8 @@ import javax.swing.JPanel;
 
 public class MisePanel extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
 	private int valeur ;
 	private Image img;
 	

@@ -1,6 +1,13 @@
 package IHM;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,16 +25,16 @@ public class Boutton extends JButton {
 	private static final long serialVersionUID = 1L;
 	private Joueur j;
 	private int mise;
-	private String nom;
-	private ObjectOutputStream writer;
-	private Message message;
 	
-	public Boutton(String x, int mise , ObjectOutputStream writer)
+//	private ObjectOutputStream writer;
+//	private Message message;
+	
+	public Boutton(String x, int mise /*, ObjectOutputStream writer*/)
 	{
 		super();
 		this.mise = mise;
-		this.writer = writer;
-		message = new Message();
+		//this.writer = writer;
+	//	message = new Message();
 		
 		this.setText(x);
 		
@@ -35,7 +42,7 @@ public class Boutton extends JButton {
 	}
 		
 	
-	public void act(final Joueur j)
+	public void act(Joueur j)
 	{
 	
 		this.addMouseListener(new MouseAdapter() {
@@ -63,9 +70,9 @@ public class Boutton extends JButton {
 				// generer le msg en fonction des attributs
 				// recuperer la valeur du spiner pour miser
 				
-				message.setMessage(mise, nom, j);
+				//message.setMessage(mise, nom, j);
 				System.out.println(mise);
-				
+				/*
 				try
 				{
 					writer.writeObject(message);
@@ -73,7 +80,7 @@ public class Boutton extends JButton {
 				}catch(IOException x)
 				{
 					System.out.println("Erreur lors de l'envoie du message");
-				}
+				}*/
 			}
 			
 			});
@@ -84,6 +91,10 @@ public class Boutton extends JButton {
 	{
 		this.mise = mise;
 	}
+	
+	
+	
+	
 }
 			
 		
