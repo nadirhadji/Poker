@@ -59,6 +59,7 @@ public class MisePanel extends JPanel{
 
 	public void setValeur(int valeur) {
 		this.valeur = valeur;
+		repaint();
 	}
 
 	

@@ -17,24 +17,16 @@ public class Carteimg extends JLabel{
 	private static final long serialVersionUID = 1L;
 	
 	private Carte carte;
-	private boolean afficher;
 
-	public Carteimg(boolean afficher , int width , int height) 
-	{
-		super();
-		this.afficher = afficher;
-		setCarte(carte , width , height);
-		
-	}
 	
-	public Carteimg(Carte carte , boolean afficher, int width , int height) 
+	public Carteimg(Carte carte , int width , int height) 
 	{
 		super();
-		this.afficher = afficher;
+		
 		setCarte(carte , width , height);
 	}
 
-	private void setCarte(Carte carte , int width , int height )
+	public void setCarte(Carte carte , int width , int height )
 	{
 		
 		this.carte = carte;
@@ -43,7 +35,7 @@ public class Carteimg extends JLabel{
 	
 		Image img = null;
 		
-		if (this.afficher == false )
+		if (carte.getValeur() == -1)
 		{
 			
 			try {
@@ -70,14 +62,12 @@ public class Carteimg extends JLabel{
 				e.printStackTrace();
 			}
 			
-			
 			Image img2 = redimensionner(img , width , height);
 			
 			ImageIcon image2 = new ImageIcon(img2);
 			
 			setIcon(image2);
 		
-			
 		}
 		
 	}
@@ -98,42 +88,5 @@ public class Carteimg extends JLabel{
 	  return img;
 	
 	}
-	
-	public boolean isAfficher() 
-	{
-		return afficher;
-	}
 
-	public void setAfficher(boolean afficher) 
-	{
-		this.afficher = afficher;
-	}
-	
-	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
