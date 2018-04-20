@@ -334,8 +334,7 @@ public class FP extends JFrame {
 				flop1.setBounds(318, 215, CLP, CHP);
 				CardPanel.add(flop1);
 				
-				carteAdversaire1 = new Carteimg(partie.getJ2().getMain()[0], CLG , CHG)
-;
+				carteAdversaire1 = new Carteimg(partie.getJ2().getMain()[0], CLG , CHG);
 				CardPanel.add(carteAdversaire1);
 				carteAdversaire1.setBounds(387, 12, CLG, CHG);
 			
