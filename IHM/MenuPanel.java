@@ -27,6 +27,7 @@ public class MenuPanel extends JPanel {
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		try
 		{
 			this.image = ImageIO.read(new File("Image/carte.png"));

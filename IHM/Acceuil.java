@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import Modele.Partie;
+
 public class Acceuil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -55,6 +57,7 @@ public class Acceuil extends JPanel {
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		try
 		{
 			
@@ -74,7 +77,7 @@ public class Acceuil extends JPanel {
 		jouer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-			
+		
 			acceuil.setVisible(false);
 			jeu.setVisible(true);
 			
@@ -97,4 +100,10 @@ public class Acceuil extends JPanel {
 			});
 			
 	}
+
+	public JButton getButton()
+	{
+		return jouer;
+	}
+	
 }

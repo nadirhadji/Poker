@@ -23,6 +23,7 @@ public class TablePanel extends JPanel {
 	
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		try
 		{
 			this.image = ImageIO.read(new File("Image/table.png"));

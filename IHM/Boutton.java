@@ -25,6 +25,7 @@ import javax.swing.JButton;
 public class Boutton extends JButton {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Partie partie;
 	private int mise;
 		

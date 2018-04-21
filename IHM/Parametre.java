@@ -24,26 +24,28 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import Modele.Partie;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class Parametre extends JPanel {
+public class Parametre extends JPanel{
 
-	JLabel NomJoueur1;
-	JLabel NomJoueur2;
-	JLabel SoldeJ1;
-	JLabel SoldeJ2;
+	NamePanel NomJoueur1;
+	NamePanel NomJoueur2;
+	NamePanel SoldeJ1;
+	NamePanel SoldeJ2;
 	JTextField nom1;
 	JTextField nom2;
 	JSpinner spinner_1;
 	JSpinner spinner_2;
-	String Joueur1 = "Joueur 1";
+	String Joueur1 = "Joueur 1" ;
 	String Joueur2 = "Joueur 2"; 		
 	int SpinnerSolde1 = 5000;
 	int SpinnerSolde2 = 5000;
-	private Image image;
 	static JButton OK;
+	Partie partie;
 	
 	public Parametre() 
 	
@@ -51,26 +53,25 @@ public class Parametre extends JPanel {
 		
 		this.setLayout(null);
 		
-		NomJoueur1 = new JLabel("Nom Joueur 1");
+		NomJoueur1 = new NamePanel("Nom joueur 1");
 		NomJoueur1.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		NomJoueur1.setFont(new Font("Arial", Font.BOLD, 20));
-		NomJoueur1.setBackground(Color.WHITE);
 		NomJoueur1.setBounds(218, 113, 156, 52);
 		this.add(NomJoueur1);
 		
-		NomJoueur2 = new JLabel("Nom Joueur 2");
+		NomJoueur2 = new NamePanel("Nom Joueur 2");
 		NomJoueur2.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		NomJoueur2.setFont(new Font("Arial", Font.BOLD, 20));
 		NomJoueur2.setBounds(218, 177, 156, 52);
 		this.add(NomJoueur2);
 		
-		SoldeJ1 = new JLabel("Solde Joueur 1");
+		SoldeJ1 = new NamePanel("Solde Joueur 1");
 		SoldeJ1.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		SoldeJ1.setFont(new Font("Arial", Font.BOLD, 20));
 		SoldeJ1.setBounds(218, 241, 156, 52);
 		this.add(SoldeJ1);
 		
-		SoldeJ2 = new JLabel("Solde Joueur 2");
+		SoldeJ2 = new NamePanel("Solde Joueur 2");
 		SoldeJ2.setBorder(new LineBorder(new Color(255, 255, 255), 2));
 		SoldeJ2.setFont(new Font("Arial", Font.BOLD, 20));
 		SoldeJ2.setBounds(218, 305, 156, 52);
@@ -88,7 +89,8 @@ public class Parametre extends JPanel {
 			public void insertUpdate(DocumentEvent e) {
 				
 				Joueur1 = nom1.getText();
-				
+				System.out.println(Joueur1);
+			
 			}
 
 			@Override
@@ -100,12 +102,12 @@ public class Parametre extends JPanel {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				
-				Joueur1 = nom1.getText();
+				
 			}
 			
 				});
 		
-		NomJoueur1.setLabelFor(nom1);
+		//NomJoueur1.setLabelFor(nom1);
 		nom1.setBounds(433, 119, 156, 41);
 		this.add(nom1);
 		nom1.setColumns(10);
@@ -116,12 +118,13 @@ public class Parametre extends JPanel {
 		nom2 = new JTextField();
 		
 
-		nom1.getDocument().addDocumentListener(new DocumentListener(){
+		nom2.getDocument().addDocumentListener(new DocumentListener(){
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				
 				Joueur2 = nom2.getText();
+				System.out.println(Joueur2);
+
 			}
 
 			@Override
@@ -133,7 +136,7 @@ public class Parametre extends JPanel {
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				
-				Joueur2 = nom2.getText();
+				
 			}
 			
 				});
@@ -149,12 +152,11 @@ public class Parametre extends JPanel {
 		
 		this.spinner_1 = new JSpinner();
 		
-		
-		
 		spinner_1.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				
 				SpinnerSolde1 = Integer.parseInt(spinner_1.getValue().toString());
+				System.out.println(SpinnerSolde1);
 				
 			}
 		});
@@ -175,6 +177,8 @@ public class Parametre extends JPanel {
 			public void stateChanged(ChangeEvent e) {
 				
 				SpinnerSolde2 = Integer.parseInt(spinner_2.getValue().toString());
+				System.out.println(SpinnerSolde2);
+
 			
 			}
 		});
@@ -219,9 +223,10 @@ public class Parametre extends JPanel {
 	  return img;
 	
 	}
-	
+	/*
 	public void paintComponent(Graphics g)
 	{
+		super.paintComponent(g);
 		try
 		{
 			this.image = ImageIO.read(new File("Image/parametre.jpg"));
@@ -233,6 +238,7 @@ public class Parametre extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	*/
 	
 	public int getSolde1()
 	{
@@ -253,6 +259,12 @@ public class Parametre extends JPanel {
 	{
 		return Joueur2;
 	}
+	
+	public void setPartie(Partie partie)
+	{
+		this.partie = partie;
+	}
+	
 	
 	
 	

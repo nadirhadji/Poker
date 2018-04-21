@@ -27,6 +27,7 @@ public class TourPanel extends JPanel {
 	
 	public void paintComponent(Graphics g){
 		
+			super.paintComponent(g);
 			g.setColor(Color.WHITE);
 			g.setFont(new Font("Arial", Font.BOLD, 20));
 			g.drawString(""+valeur, 25,20);

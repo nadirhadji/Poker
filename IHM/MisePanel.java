@@ -40,6 +40,7 @@ public class MisePanel extends JPanel{
 	}
 	
 	public void paintComponent(Graphics g){
+		super.paintComponent(g);
 		if(valeur>0){
 			g.drawImage(img, 0, 0, null);
 			g.setColor(Color.WHITE);
