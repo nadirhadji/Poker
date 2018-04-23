@@ -40,7 +40,7 @@ import java.io.FileNotFoundException;
 
 
 
-public class FP extends JFrame {
+public class FP extends JFrame  {
 	
 	public FP() {
 	}
@@ -67,7 +67,7 @@ public class FP extends JFrame {
 	private Carteimg carteAdversaire1;
 	private Carteimg carteAdversaire2;
 	private TourPanel tourDe;
-	private File save;
+	File f;
 
 	private JPanel CardPanel;
 	private MisePanel mise;
@@ -107,8 +107,6 @@ public class FP extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
-		
-		save = new File("save");
 				
 		////////////////////////////// Les Panels ////////////////////////////////////////////////
 		
@@ -179,11 +177,8 @@ public class FP extends JFrame {
 				
 				public void mouseClicked(MouseEvent e) 
     			{
-										
-					Partie p = charger();
-
-				
 					
+					Partie p = charger();
 					
 					 flop1.setCarte(p.getFlop1(), CLP, CHP);
                      flop2.setCarte(p.getFlop2(), CLP, CHP);
@@ -505,7 +500,7 @@ public class FP extends JFrame {
 						
 						sauver(partie);
 						//partie = new Partie();
-						setAll(partie);
+						//setAll(partie);
 						FPP.setVisible(false);
 						acceuil.setVisible(true);
 						
@@ -530,7 +525,11 @@ public class FP extends JFrame {
 				
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		
-		this.setVisible(true);
+		
+				
+				
+				
+				this.setVisible(true);
 	}
 	
 	public void setAffichage()
@@ -645,61 +644,45 @@ public class FP extends JFrame {
 	
 	public void sauver(Partie p)
     {
-            try {
-            		final FileOutputStream fichier = new FileOutputStream(save);
-                    ObjectOutputStream oss = new ObjectOutputStream(fichier);
-                    if (oss!=null)
-                    {
-                    	
-	                    oss.writeObject(p);
-	                    oss.flush();
-	                    oss.close();
-                    }
-                    
-            }catch(FileNotFoundException e)
-            {
-                    System.out.println("Fichier non trouvé");
-            }catch(IOException e )
-            {
-                    System.out.println("erreur lors de la sauvegarde");
-                    System.out.println(e.getMessage());
-
-            }
+		
+		f = new File ("save"); 
+		
+		try
+		{
+		    ObjectOutputStream oos = new ObjectOutputStream (new FileOutputStream (f));
+		    oos.writeObject (p);
+		    oos.close();
+		}
+		catch (IOException exception)
+		{
+		    System.out.println ("Erreur lors de l'écriture : " + exception.getMessage());
+		}
             
             
     }
     
     public Partie charger()
-    {
-            Partie p = new Partie();
-            try{
-                    
-            		FileInputStream  fichier = new FileInputStream(save);
-            		ObjectInputStream ois = new ObjectInputStream(fichier);
-                    try
-                    {
-                            Object o = (Partie)ois.readObject();
-                            if (o instanceof Partie)
-                            {
-                            
-                            	System.out.println("partie chargée");
-                            	p = (Partie)o;
-                            	p.afficherEtatPartie();
-                            }
-                             
-                    }catch(ClassNotFoundException e)
-                    {
-                            System.out.println("Fichier corompu");
-                    }
-                    ois.close();
-            }catch(FileNotFoundException e)
+    {            
+           Partie p = new Partie();
+    			
+           try
             {
-                    System.out.println("Fichier non trouvé");
-            }catch(IOException e )
-            {
-                    System.out.println("erreur lors du chargement");
-                    System.out.println(e.getMessage());
+               
+            		ObjectInputStream ois = new ObjectInputStream (new FileInputStream ("save"));
+                p = (Partie) ois.readObject();
+                ois.close();
+             
+                System.out.println (p);
             }
+            catch (ClassNotFoundException exception)
+            {
+                System.out.println ("Impossible de lire l'objet : " + exception.getMessage());
+            }
+            catch (IOException exception)
+            {
+                System.out.println ("Erreur lors de l'écriture : " + exception.getMessage());
+            }
+            
             
             return p;
     } 
