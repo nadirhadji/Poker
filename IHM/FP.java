@@ -17,14 +17,31 @@ import java.awt.Graphics;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+
 import javax.swing.event.ChangeListener;
 
 import Modele.ActionUtilisateur;
 import Modele.Partie;
 import javax.swing.event.ChangeEvent;
 
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+
+
 
 public class FP extends JFrame {
+	
 	public FP() {
 	}
 
@@ -50,7 +67,8 @@ public class FP extends JFrame {
 	private Carteimg carteAdversaire1;
 	private Carteimg carteAdversaire2;
 	private TourPanel tourDe;
-	
+	private File save;
+
 	private JPanel CardPanel;
 	private MisePanel mise;
 	private MisePanel Pot;
@@ -108,6 +126,7 @@ public class FP extends JFrame {
 			acceuil.setLayout(null);
 			acceuil.actionJouer(acceuil,parametre );
 			acceuil.actionJouer(acceuil,FPP );
+			
 			acceuil.getButton().addMouseListener(new MouseAdapter() {
 				
 				public void mouseClicked(MouseEvent e) 
@@ -148,6 +167,47 @@ public class FP extends JFrame {
     			}
 			});
 			
+			
+			//Boutton Continuer Partie : recupere l'objet enregister apres le clique et initlialise cette objet partie a toute
+			//les objets l'utilisant.
+			
+			
+			acceuil.getContinuer().addMouseListener(new MouseAdapter() 
+			{
+				
+				public void mouseClicked(MouseEvent e) 
+    			{
+					
+					if (charger() != null)
+					{
+					
+					Partie p = charger();
+					
+					 flop1.setCarte(p.getFlop1(), CLP, CHP);
+                     flop2.setCarte(p.getFlop2(), CLP, CHP);
+                     flop3.setCarte(p.getFlop3(), CLP, CHP);
+                     turn.setCarte(p.getTurn(), CLP, CHP);
+                     river.setCarte(p.getRiver(), CLP, CHP);
+                     Pot.setValeur(p.getPot());
+                     mise.setValeur(p.getJ1().getSolde());
+                     miseAdversaire.setValeur(p.getJ2().getSolde());
+                     
+                     if(partie.getJ1() == partie.getTourDe())
+                     {
+                     	tourDe.setBounds(149, 371, 117, 35);
+                     	
+                     }
+                     else if (partie.getJ2() == partie.getTourDe())
+                     {
+                     	tourDe.setBounds(149, 85, 117, 35);
+                     }
+					
+					
+					setAll(p);
+					}
+    			}
+			
+			});
 			
 		//////////////////////////////  Fenetre Parametrage ///////////////////////////////////////
 				
@@ -198,7 +258,7 @@ public class FP extends JFrame {
                             
                             if(partie.getJ1() == partie.getTourDe())
                             {
-                            
+                            	tourDe.setBounds(149, 371, 117, 35);
                             	
                             }
                             else if (partie.getJ2() == partie.getTourDe())
@@ -441,10 +501,12 @@ public class FP extends JFrame {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						
-						partie = new Partie();
+						sauver(partie);
+						//partie = new Partie();
 						setAll(partie);
 						FPP.setVisible(false);
 						acceuil.setVisible(true);
+						
 					}
 				});
 				btnQuitter.setBounds(12, 12, 117, 25);
@@ -468,6 +530,12 @@ public class FP extends JFrame {
 		
 		this.setVisible(true);
 	}
+	
+	public void setAffichage()
+	{
+		
+	}
+	
 	
 	
 	public JButton getBtnMiser() {
@@ -572,6 +640,48 @@ public class FP extends JFrame {
             parametre.setPartie(p);
 
     }
+	
+	public void sauver(Partie p)
+    {
+            try {
+                    ObjectOutputStream oss = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(save)));
+                    
+                    oss.writeObject(p);
+                    oss.close();
+            }catch(FileNotFoundException e)
+            {
+                    System.out.println("Fichier non trouvé");
+            }catch(IOException e )
+            {
+                    System.out.println("erreur lors de la sauvegarde");
+            }
+            
+            
+    }
+    
+    public Partie charger()
+    {
+            Partie p = new Partie();
+            try{
+                    ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(save)));
+                    try
+                    {
+                            p = (Partie)ois.readObject();
+                    }catch(ClassNotFoundException e)
+                    {
+                            System.out.println("Fichier corompu");
+                    }
+                    ois.close();
+            }catch(FileNotFoundException e)
+            {
+                    System.out.println("Fichier non trouvé");
+            }catch(IOException e )
+            {
+                    System.out.println("erreur lors du chargement");
+            }
+            
+            return p;
+    } 
 		
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
