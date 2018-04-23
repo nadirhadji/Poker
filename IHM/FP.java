@@ -179,11 +179,11 @@ public class FP extends JFrame {
 				
 				public void mouseClicked(MouseEvent e) 
     			{
-					
-					if (charger() != null)
-					{
-					
+										
 					Partie p = charger();
+
+				
+					
 					
 					 flop1.setCarte(p.getFlop1(), CLP, CHP);
                      flop2.setCarte(p.getFlop2(), CLP, CHP);
@@ -206,7 +206,7 @@ public class FP extends JFrame {
 					
 					
 					setAll(p);
-					}
+					
     			}
 			
 			});
@@ -678,7 +678,15 @@ public class FP extends JFrame {
             		ObjectInputStream ois = new ObjectInputStream(fichier);
                     try
                     {
-                            p = (Partie)ois.readObject();
+                            Object o = (Partie)ois.readObject();
+                            if (o instanceof Partie)
+                            {
+                            
+                            	System.out.println("partie chargée");
+                            	p = (Partie)o;
+                            	p.afficherEtatPartie();
+                            }
+                             
                     }catch(ClassNotFoundException e)
                     {
                             System.out.println("Fichier corompu");
