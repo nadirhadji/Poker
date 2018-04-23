@@ -23,6 +23,7 @@ public class Acceuil extends JPanel {
 	private Image image;
 	private JButton jouer;
 	private JButton parametrer;
+	private JButton continuer;
 	
 	public Acceuil() 
 	{
@@ -30,6 +31,12 @@ public class Acceuil extends JPanel {
 		super();
 		
 		this.setLayout(null);
+		
+		continuer = new JButton("Continuer partie");
+		
+		continuer.setBounds(344, 90, 174, 75);
+		this.add(continuer);
+		
 		
 		jouer = new JButton("Jouer");
 		
@@ -72,7 +79,7 @@ public class Acceuil extends JPanel {
 	}
 	
 	
-	public void actionJouer(final Acceuil acceuil , final JPanel jeu )
+	public void actionJouer( Acceuil acceuil ,JPanel jeu )
 	{
 		jouer.addMouseListener(new MouseAdapter() {
 			@Override
@@ -87,7 +94,7 @@ public class Acceuil extends JPanel {
 		
 	}
 	
-	public void actionJouer(final Acceuil acceuil , final Parametre parametre )
+	public void actionJouer( Acceuil acceuil ,Parametre parametre )
 	{
 		parametrer.addMouseListener(new MouseAdapter() {
 			@Override
@@ -100,7 +107,12 @@ public class Acceuil extends JPanel {
 			});
 			
 	}
-
+	
+	public JButton getContinuer()
+	{
+		return continuer;
+	}
+	
 	public JButton getButton()
 	{
 		return jouer;
