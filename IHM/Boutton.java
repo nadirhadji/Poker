@@ -38,7 +38,7 @@ public class Boutton extends JButton {
 		setBackground(new Color(242, 1, 46));
 	}
 	
-	public void act(Joueur j , ActionUtilisateur aa , int somme)
+	public void act(final Joueur j , final  ActionUtilisateur aa , final int somme)
 	{
 	
 		this.addMouseListener(new MouseAdapter() {

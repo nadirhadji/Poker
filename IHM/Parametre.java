@@ -85,7 +85,7 @@ public class Parametre extends JPanel{
 		
 		nom1.getDocument().addDocumentListener(new DocumentListener(){
 
-			@Override
+			
 			public void insertUpdate(DocumentEvent e) {
 				
 				Joueur1 = nom1.getText();
@@ -93,13 +93,13 @@ public class Parametre extends JPanel{
 			
 			}
 
-			@Override
+			
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
-			@Override
+			
 			public void changedUpdate(DocumentEvent e) {
 				
 				
@@ -120,20 +120,20 @@ public class Parametre extends JPanel{
 
 		nom2.getDocument().addDocumentListener(new DocumentListener(){
 
-			@Override
+			
 			public void insertUpdate(DocumentEvent e) {
 				Joueur2 = nom2.getText();
 				System.out.println(Joueur2);
 
 			}
 
-			@Override
+			
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
-			@Override
+			
 			public void changedUpdate(DocumentEvent e) {
 				
 				
@@ -198,7 +198,7 @@ public class Parametre extends JPanel{
 	
 		
 	
-	public static void actionOK(JPanel acceuil , Parametre parametre)
+	public static void actionOK(final JPanel acceuil ,final Parametre parametre)
 	{
 		OK.addMouseListener(new MouseAdapter() {
 			@Override
