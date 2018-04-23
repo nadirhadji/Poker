@@ -107,6 +107,8 @@ public class FP extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		this.setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
+		
+		save = new File("save");
 				
 		////////////////////////////// Les Panels ////////////////////////////////////////////////
 		
@@ -644,16 +646,24 @@ public class FP extends JFrame {
 	public void sauver(Partie p)
     {
             try {
-                    ObjectOutputStream oss = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(save)));
+            		final FileOutputStream fichier = new FileOutputStream(save);
+                    ObjectOutputStream oss = new ObjectOutputStream(fichier);
+                    if (oss!=null)
+                    {
+                    	
+	                    oss.writeObject(p);
+	                    oss.flush();
+	                    oss.close();
+                    }
                     
-                    oss.writeObject(p);
-                    oss.close();
             }catch(FileNotFoundException e)
             {
                     System.out.println("Fichier non trouvé");
             }catch(IOException e )
             {
                     System.out.println("erreur lors de la sauvegarde");
+                    System.out.println(e.getMessage());
+
             }
             
             
@@ -663,7 +673,9 @@ public class FP extends JFrame {
     {
             Partie p = new Partie();
             try{
-                    ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(save)));
+                    
+            		FileInputStream  fichier = new FileInputStream(save);
+            		ObjectInputStream ois = new ObjectInputStream(fichier);
                     try
                     {
                             p = (Partie)ois.readObject();
@@ -678,6 +690,7 @@ public class FP extends JFrame {
             }catch(IOException e )
             {
                     System.out.println("erreur lors du chargement");
+                    System.out.println(e.getMessage());
             }
             
             return p;

@@ -68,7 +68,7 @@ public class Acceuil extends JPanel {
 		try
 		{
 			
-			this.image = ImageIO.read(new File("Image/background2.png"));
+			this.image = ImageIO.read(new File("Image/background2.jpg"));
 	        image = this.redimensionner(image, this.getWidth(), this.getHeight());
 			g.drawImage(image, 0, 0, this);
 		}
@@ -79,7 +79,7 @@ public class Acceuil extends JPanel {
 	}
 	
 	
-	public void actionJouer( Acceuil acceuil ,JPanel jeu )
+	public void actionJouer(final  Acceuil acceuil , final JPanel jeu )
 	{
 		jouer.addMouseListener(new MouseAdapter() {
 			@Override
@@ -94,7 +94,7 @@ public class Acceuil extends JPanel {
 		
 	}
 	
-	public void actionJouer( Acceuil acceuil ,Parametre parametre )
+	public void actionJouer( final  Acceuil acceuil , final Parametre parametre )
 	{
 		parametrer.addMouseListener(new MouseAdapter() {
 			@Override
