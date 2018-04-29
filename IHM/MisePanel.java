@@ -10,13 +10,31 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-
+/**
+ * Sers à afficher la mise <br>
+ * Hérite de JPanel
+ * @see JPanel
+ *
+ *
+ */
 public class MisePanel extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * valeur de la mise
+	 */
 	private int valeur ;
+	/**
+	 * image de fond
+	 */
 	private Image img;
+	/**
+	 * appelle le super constructeur <br>
+	 * initialise valeur
+	 * 
+	 * @param valeur
+	 */
 	
 	public MisePanel(int valeur)
 	{
@@ -39,6 +57,10 @@ public class MisePanel extends JPanel{
 		
 	}
 	
+	/**
+	 * permet à l'objet de s'afficher
+	 */
+	
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		if(valeur>0){
@@ -53,11 +75,19 @@ public class MisePanel extends JPanel{
 			g.drawString("0", 0, 35);
 		}
 	}
+	
+	/**
+	 * 
+	 * @return valeur
+	 */
 
 	public int getValeur() {
 		return valeur;
 	}
-
+	/**
+	 * Met à jour la valeur
+	 * @param valeur : nouvelle valeur
+	 */
 	public void setValeur(int valeur) {
 		this.valeur = valeur;
 		repaint();

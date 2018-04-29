@@ -29,8 +29,41 @@ import Modele.Partie;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * 
+ * <p>Sert à afficher un menu parametre<br>
+ * Hérite de JPanel<br> </p>
+ 
+  * <p> NomJoueur1 : sert à afficher le nom du joueur 1 <br>
+	 * NomJoueur2 : sert à afficher le nom du joueur 2 <br>
+	 * SoldeJ1 : sert à afficher le solde du joueur 1 <br>	 
+	 * SoldeJ2 : sert à afficher le solde du joueur 2 <br>
+	 * nom1 : sert à mettre à jour le nom du joueur 1<br>
+	 * nom2 : sert à mettre à jour le nom du joueur 2<br>
+	 * spinner_1 : sert à mettre à jour le solde du joueur 1<br>
+	 * spinner_2 : sert à mettre à jour le solde du joueur 2 <br>
+	 * SpinnerSolde1 : initialise la valeure du solde du joueur 1 à 5000<br>
+	 * SpinnerSolde2 : initialise la valeure du solde du joueur 2 à 5000<br>
+	 * OK  : sert au déclenchement des MouseEvent<br>
+	 * partie : sert à mettre à jour la partie </p>
+	 * @see Partie
+	 * @see NamePanel
+	 * @see JTextField
+	 * @see JSpinner
+	 * @see JButton
+	 * @see JPanel
+ *
+ */
 
 public class Parametre extends JPanel{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
+	
+	 */
 
 	NamePanel NomJoueur1;
 	NamePanel NomJoueur2;
@@ -46,6 +79,13 @@ public class Parametre extends JPanel{
 	int SpinnerSolde2 = 5000;
 	static JButton OK;
 	Partie partie;
+	
+	/**
+	 * <p>Initialise tous les attributs<br>
+	 * Créer les boutons, les mouseEvent et les zones de texte nécessaire au  parametrage de la partie <br>
+	 * Affiche les JPanel nécessaires</p>
+	 * 
+	 */
 	
 	public Parametre() 
 	
@@ -197,7 +237,11 @@ public class Parametre extends JPanel{
 	}
 	
 		
-	
+	/**
+	 * <p>Créer un MouseEvent permetant le retour à l'écran d'accueil
+	 * @param acceuil écran affiché
+	 * @param parametre écran fermé
+	 */
 	public static void actionOK(final JPanel acceuil ,final Parametre parametre)
 	{
 		OK.addMouseListener(new MouseAdapter() {
@@ -211,6 +255,14 @@ public class Parametre extends JPanel{
 			});
 			
 	}
+	
+	/**
+	 * <p>Redimensionne un image</p>
+	 * @param image : image à redimensionner
+	 * @param width : longueur de l'image voulue
+	 * @param height : hauteur de l'image voulue
+	 * @return L'image aux dimentions souhaitées
+	 */
 	
 	public Image redimensionner(Image image , int width , int height)
 	{
@@ -240,25 +292,50 @@ public class Parametre extends JPanel{
 	}
 	*/
 	
+	/**
+	 * 
+	 * @return le premier spinnerSolde 
+	 */
+	
 	public int getSolde1()
 	{
 		return SpinnerSolde1; 
 	}
+	
+	/**
+	 * 
+	 * @return le deuxième SpinnerSolde
+	 */
 	
 	public int getSolde2()
 	{
 		return SpinnerSolde2;
 	}
 	
+	/**
+	 * 
+	 * @return le Joueur 1
+	 */
+	
 	public String getName1()
 	{
 		return Joueur1;
 	}
 	
+	/**
+	 * 
+	 * @return le joueur 2
+	 */
+	
 	public String getName2()
 	{
 		return Joueur2;
 	}
+	
+	/**
+	 * <p>Mets à jour la partie
+	 * @param partie : nouvel état de la partie
+	 */
 	
 	public void setPartie(Partie partie)
 	{

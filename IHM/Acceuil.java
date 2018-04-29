@@ -15,16 +15,41 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import Modele.Partie;
-
+/**
+ *
+ * <p>Accueil est une classe permettant d'aficher une fenetre d'accueil dans le cadre de l'interface graphique <b>
+ * Elle herite de JPanel </p>
+ * @see IHM
+ * @see JPanel
+ *
+ */
 public class Acceuil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Image image;
-	private JButton jouer;
-	private JButton parametrer;
-	private JButton continuer;
+	/**
+	 * image de fond 
+	 */
 	
+	private Image image;
+	/**
+	 * bouton "jouer"
+	 */
+	private JButton jouer;
+	
+	/**
+	  *bouton "parametrer"
+	 */
+	private JButton parametrer;
+	/**
+	 *  bouton "continuer" 
+	 */
+	private JButton continuer;
+	/**
+	 * <p>Ce constructeur appelle son super constructeur <br>
+	 * Il initialise les boutons, leur donne leur taille et leur nom </p>
+	 * 
+	 */
 	public Acceuil() 
 	{
 		
@@ -49,6 +74,14 @@ public class Acceuil extends JPanel {
 		this.add(parametrer);
 
 	}
+	
+	/**
+	 * 
+	 * @param image  l'image a redimentionner
+	 * @param width  la largeure de l'image voulue
+	 * @param height la hauteur de l'image voulue
+	 * @return l'image passée en paramètre, redimmentionnée à la taille voulue
+	 */
 	
 	public Image redimensionner(Image image , int width , int height)
 	{
@@ -78,6 +111,11 @@ public class Acceuil extends JPanel {
 		}
 	}
 	
+	/**
+	 * <p> Créer un mouseEvent qui permet de passe d'un JPanel à l'autre <p>
+	 * @param acceuil  premier JPanel, celui dans lequel on se trouve au moment du clique
+	 * @param jeu		deuxième JPanel, celui qui apparait après le clique
+	 */
 	
 	public void actionJouer(final  Acceuil acceuil , final JPanel jeu )
 	{
@@ -94,6 +132,12 @@ public class Acceuil extends JPanel {
 		
 	}
 	
+	/**
+	 * <p> Créer un mouseEvent qui permet de passe d'un JPanel à l'autre <p>
+	 * @param acceuil  premier JPanel, celui dans lequel on se trouve au moment du clique
+	 * @param parametre		deuxième JPanel, celui qui apparait après le clique
+	 */
+	
 	public void actionJouer( final  Acceuil acceuil , final Parametre parametre )
 	{
 		parametrer.addMouseListener(new MouseAdapter() {
@@ -108,11 +152,19 @@ public class Acceuil extends JPanel {
 			
 	}
 	
+	/**
+	 * 
+	 * @return le bouton continuer
+	 */
+	
 	public JButton getContinuer()
 	{
 		return continuer;
 	}
-	
+	/**
+	 * 
+	 * @return le bouton jouer
+	 */
 	public JButton getButton()
 	{
 		return jouer;

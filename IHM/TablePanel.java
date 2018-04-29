@@ -7,12 +7,23 @@ import java.io.File;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+/**
+ * 
+ * <p>Sert à afficher l'image de la table<p>
+ * <p>Hérite de JPanel </p>
+ * @see JPanel
+ *
+ */
 public class TablePanel extends JPanel {
 
 	private static final long serialVersionUID = 168155420156856L;
-	
+	/**
+	 * <p>image est une image de fond</p>
+	 */
 	private Image image;
-	
+	/**
+	 * <p>Appelle le super constructeur<p>
+	 */
 	public TablePanel(){
 		
 		super();
@@ -20,7 +31,9 @@ public class TablePanel extends JPanel {
 		super.setBounds(0, 0, 885, 508);
 	
 	}
-	
+	/**
+	 * <p>Initialise l'image et l'affiche</p>
+	 */
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);

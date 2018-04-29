@@ -38,7 +38,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 
-
+/**
+ * 
+ * <p>Gére l'interface graphique<br>
+ * Herite de JFrame</p>
+ * @see JFrame
+ */
 
 public class FP extends JFrame  {
 	
@@ -91,7 +96,11 @@ public class FP extends JFrame  {
 
 	protected static final Graphics Graphics = null;
 	
-	
+	/**
+	 *<p> Lance l'interface,<br>
+	 *Initialise tous les paramètres <br>
+	 *Créer les MouseEvent qui n'ont pas put être défini dans des sous classes</p>
+	 */
 	
 	public void runn()
 	{
@@ -537,19 +546,35 @@ public class FP extends JFrame  {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @return le bouton miser
+	 */
 	
 	public JButton getBtnMiser() {
 		return BtnMiser;
 	}
 
+	/**
+	 * 
+	 * @return le bouton Parole
+	 */
 	public JButton getBtnParole() {
 		return btnParole;
 	}
-
+	
+	/**
+	 * 
+	 * @return le bouton Suivre
+	 */
 	public JButton getBtnSuivre() {
 		return btnSuivre;
 	}
+	
+	/**
+	 * 
+	 * @return le bouton passer
+	 */
 
 	public JButton getBtnPasser() {
 		return btnPasser;
@@ -558,72 +583,128 @@ public class FP extends JFrame  {
 	public JSpinner getSpinner() {
 		return spinner;
 	}
+	
+	/**
+	 * 
+	 * @return la troisième carte du flop
+	 */
 
 
 	public Carteimg getFlop3() {
 		return flop3;
 	}
-
+	
+	/**
+	 * 
+	 * @return la deuxième carte du flop
+	 */
 
 	public Carteimg getFlop2() {
 		return flop2;
 	}
 
+	/**
+	 * 
+	 * @return la premère carte du flop
+	 */
 
 	public Carteimg getFlop1() {
 		return flop1;
 	}
-
+	
+	/**
+	 * 
+	 * @return la carte du tournant
+	 */
 
 	public Carteimg getTurn() {
 		return turn;
 	}
-
+	
+	/**
+	 * 
+	 * @return la carte de la rivière
+	 */
 
 	public Carteimg getRiver() {
 		return river;
 	}
-
+	
+	/**
+	 * 
+	 * @return la première carte en main
+	 */
 
 	public Carteimg getCarte1() {
 		return carte1;
 	}
-
+	
+	/**
+	 * 
+	 * @return la deuxième carte en main
+	 */
 
 	public Carteimg getCarte2() {
 		return carte2;
 	}
-
+	/**
+	 * 
+	 * @return la première carte de l'adversaire
+	 */
 
 	public Carteimg getCarteAdversaire1() {
 		return carteAdversaire1;
 	}
+	
+	/**
+	 * 
+	 * @return la deuxième carte de l'adversaire
+	 */
 
 
 	public Carteimg getCarteAdversaire2() {
 		
 		return carteAdversaire2;
 	}
-
+	/**
+	 * 
+	 * @return la mise
+ 	 */
 	public int getMise() {
 		return mise.getValeur();
 	}
+	/**
+	 * 
+	 * @return le pot
+ 	 */
 
 	public int getPot() {
 		return Pot.getValeur();
 	}
-
+	/**
+	 * 
+	 * @return la mise de l'adversaire
+	 */
 
 	public int getMiseAdversaire() 
 	{
 		return miseAdversaire.getValeur();
 	}
 	
+	/**
+	 * 
+	 * @return la fenetre de parametre
+	 */
+	
 	public Parametre getParamtre()
 	{
 		return parametre;
 	}
 	
+	/**
+	 * <p> Mets à jour la partie de FP et de tous ses boutons <p>
+	 * @param p l'état actuel de la partie
+	 */
 	
 	public void setAll(Partie p)
 
@@ -641,6 +722,11 @@ public class FP extends JFrame  {
             parametre.setPartie(p);
 
     }
+	
+	/**
+	 * <p>Sauvegarde la partie dans le fichier save</p>
+	 * @param p : l'état actuel de la partie
+	 */
 	
 	public void sauver(Partie p)
     {
@@ -660,6 +746,10 @@ public class FP extends JFrame  {
             
             
     }
+	/**
+	 * <p>Charge la partie</p>
+	 * @return l'état dans lequel la partie a été sauvegardée
+	 */
     
     public Partie charger()
     {            
@@ -687,6 +777,7 @@ public class FP extends JFrame  {
             return p;
     } 
 		
+
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {

@@ -11,11 +11,23 @@ import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+/**
+ * <p>Affiche le menu<br>
+ * Hérite de JPanel</p>
+ * @see JPanel
+ *
+ */
 public class MenuPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * <p>Image est une image de fond </p>
+	 */
 	private Image image;
+	
+	/**
+	 * <p>Appelle le super constructeur<p>
+	 */
 	
 	public MenuPanel() {
 		
@@ -24,6 +36,11 @@ public class MenuPanel extends JPanel {
 		this.setLayout(null);
 
 	}
+	
+	/**
+	 * <p>Initialise image<br>
+	 * Affiche l'image</p>
+	 */
 	
 	public void paintComponent(Graphics g)
 	{
