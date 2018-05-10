@@ -38,13 +38,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.FileNotFoundException;
 
-/**
- * 
- * <p>Gére l'interface graphique<br>
- * Herite de JFrame</p>
- * @see JFrame
- */
-
 public class FP extends JFrame  {
 	
 	public FP() {
@@ -74,7 +67,7 @@ public class FP extends JFrame  {
 	private TourPanel tourDe;
 	File f;
 
-	private JPanel CardPanel;
+	private TablePanel CardPanel;
 	private MisePanel mise;
 	private MisePanel Pot;
 	private MisePanel miseAdversaire;
@@ -96,11 +89,7 @@ public class FP extends JFrame  {
 
 	protected static final Graphics Graphics = null;
 	
-	/**
-	 *<p> Lance l'interface,<br>
-	 *Initialise tous les paramètres <br>
-	 *Créer les MouseEvent qui n'ont pas put être défini dans des sous classes</p>
-	 */
+	
 	
 	public void runn()
 	{
@@ -133,6 +122,7 @@ public class FP extends JFrame  {
 			
 			contentPane.add(acceuil, "Acceuil");
 			acceuil.setLayout(null);
+			
 			acceuil.actionJouer(acceuil,parametre );
 			acceuil.actionJouer(acceuil,FPP );
 			
@@ -140,39 +130,7 @@ public class FP extends JFrame  {
 				
 				public void mouseClicked(MouseEvent e) 
     			{
-					if ( (partie.getTour() == 0) && (partie.getTourDeTour() == 0) )
-							{
-					
-					//initilisation de la partie avec les donnees parametre
-					partie.getJ1().setNom(parametre.getName1());
-					partie.getJ1().setSolde(parametre.getSolde1());
-					partie.getJ2().setNom(parametre.getName2());
-					partie.getJ2().setSolde(parametre.getSolde2());
-					
-					// Statde de binde 
-					partie.Blinde();	
-					
-					//Initialisation de la vue.
-					mise.setValeur(partie.getJ1().getSolde());
-					miseAdversaire.setValeur(partie.getJ2().getSolde());
-					Pot.setValeur(partie.getPot());
-					namePanel1.setValeur(partie.getJ1().getNom());
-					namePanel2.setValeur(partie.getJ2().getNom());
-					carteAdversaire1.setCarte(partie.getJ2().getMain()[0], CLG , CHG);
-					carteAdversaire2.setCarte(partie.getJ2().getMain()[1], CLG , CHG);
-					carte1.setCarte(partie.getJ1().getMain()[0], CLG , CHG);
-					carte2.setCarte(partie.getJ1().getMain()[1], CLG , CHG);
-					
-					//envoie de la partie a tout les bouttons (afin que ceux ci sache qu'elle est l'etat de la partie.
-					setAll(partie);
-							}
-					
-					else
-						
-						// Si une partie est deja commencer, le reparametrage est impossible.
-						JOptionPane.showMessageDialog(pane, "Une partie est en cours, parametrage interdit");
-					
-							
+					creerNouvellePartie();
     			}
 			});
 			
@@ -189,27 +147,15 @@ public class FP extends JFrame  {
 					
 					Partie p = charger();
 					
-					 flop1.setCarte(p.getFlop1(), CLP, CHP);
-                     flop2.setCarte(p.getFlop2(), CLP, CHP);
-                     flop3.setCarte(p.getFlop3(), CLP, CHP);
-                     turn.setCarte(p.getTurn(), CLP, CHP);
-                     river.setCarte(p.getRiver(), CLP, CHP);
-                     Pot.setValeur(p.getPot());
-                     mise.setValeur(p.getJ1().getSolde());
-                     miseAdversaire.setValeur(p.getJ2().getSolde());
-                     
-                     if(partie.getJ1() == partie.getTourDe())
-                     {
-                     	tourDe.setBounds(149, 371, 117, 35);
-                     	
-                     }
-                     else if (partie.getJ2() == partie.getTourDe())
-                     {
-                     	tourDe.setBounds(149, 85, 117, 35);
-                     }
-					
-					
 					setAll(p);
+					
+					setAffichage(p);
+					
+					carteAdversaire1.setCarteFaceCache(p.getJ2().getMain()[0], CLG , CHG);
+					carteAdversaire2.setCarteFaceCache(p.getJ2().getMain()[1], CLG , CHG);
+					carte1.setCarteFaceCache(p.getJ1().getMain()[0], CLG , CHG);
+					carte2.setCarteFaceCache(p.getJ1().getMain()[1], CLG , CHG);
+				
 					
     			}
 			
@@ -246,33 +192,12 @@ public class FP extends JFrame  {
 
                 	public void mouseClicked(MouseEvent e) 
         			{
-                			
-                				BtnMiser.act(partie.getTourDe(), ActionUtilisateur.MISER,SpinnerMise);
-                		
-                            Partie p = BtnMiser.getPartie();
+                		partie.do_action( ActionUtilisateur.SUIVRE,partie.getTourDe(),SpinnerMise);
+                
 
-                            setAll(p);  
+                            setAll(partie);  
                             
-                            flop1.setCarte(p.getFlop1(), CLP, CHP);
-                            flop2.setCarte(p.getFlop2(), CLP, CHP);
-                            flop3.setCarte(p.getFlop3(), CLP, CHP);
-                            turn.setCarte(p.getTurn(), CLP, CHP);
-                            river.setCarte(p.getRiver(), CLP, CHP);
-                            Pot.setValeur(p.getPot());
-                            mise.setValeur(p.getJ1().getSolde());
-                            miseAdversaire.setValeur(p.getJ2().getSolde());
-                            
-                            if(partie.getJ1() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 371, 117, 35);
-                            	
-                            }
-                            else if (partie.getJ2() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 85, 117, 35);
-                            }
-                         
-                            
+                            setAffichage(partie);
 
                     }
 
@@ -284,6 +209,7 @@ public class FP extends JFrame  {
 				this.spinner = new JSpinner();
 				
 				spinner.addChangeListener(new ChangeListener() {
+					
 					public void stateChanged(ChangeEvent e) {
 						
 						SpinnerMise = Integer.parseInt(spinner.getValue().toString());
@@ -304,29 +230,11 @@ public class FP extends JFrame  {
                 	public void mouseClicked(MouseEvent e) 
         			{
                 			
-                				btnSuivre.act(partie.getTourDe(), ActionUtilisateur.SUIVRE,0);
-                		
-                            Partie p = btnSuivre.getPartie();
-
-                            setAll(p);
+                				partie.do_action( ActionUtilisateur.SUIVRE,partie.getTourDe(),0);
+                	
+                            setAll(partie);
                             
-                            flop1.setCarte(p.getFlop1(), CLP, CHP);
-                            flop2.setCarte(p.getFlop2(), CLP, CHP);
-                            flop3.setCarte(p.getFlop3(), CLP, CHP);
-                            turn.setCarte(p.getTurn(), CLP, CHP);
-                            river.setCarte(p.getRiver(), CLP, CHP);
-                            Pot.setValeur(p.getPot());
-                            mise.setValeur(p.getJ1().getSolde());
-                            miseAdversaire.setValeur(p.getJ2().getSolde());
-                            
-                            if(partie.getJ1() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 371, 117, 35);
-                            }
-                            else if (partie.getJ2() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 85, 117, 35);
-                            }
+                            setAffichage(partie);
 
                     }
 
@@ -340,29 +248,12 @@ public class FP extends JFrame  {
 
                 	public void mouseClicked(MouseEvent e) 
         			{
-                			btnPasser.act(partie.getTourDe(), ActionUtilisateur.PASSER,0);
+                		partie.do_action( ActionUtilisateur.PASSER,partie.getTourDe(),0);
                 		
-                            Partie p = btnPasser.getPartie();
 
-                            setAll(p);  
+                            setAll(partie);  
                             
-                            flop1.setCarte(p.getFlop1(), CLP, CHP);
-                            flop2.setCarte(p.getFlop2(), CLP, CHP);
-                            flop3.setCarte(p.getFlop3(), CLP, CHP);
-                            turn.setCarte(p.getTurn(), CLP, CHP);
-                            river.setCarte(p.getRiver(), CLP, CHP);
-                            Pot.setValeur(p.getPot());
-                            mise.setValeur(p.getJ1().getSolde());
-                            miseAdversaire.setValeur(p.getJ2().getSolde());
-                            
-                            if(partie.getJ1() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 371, 117, 35);
-                            }
-                            else if (partie.getJ2() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 85, 117, 35);
-                            }
+                            setAffichage(partie);
                     }
 
 				});
@@ -374,34 +265,14 @@ public class FP extends JFrame  {
 				btnParole.addMouseListener(new MouseAdapter(){
 
                 	public void mouseClicked(MouseEvent e) 
-        			{
-                			
-                			btnParole.act(partie.getTourDe(), ActionUtilisateur.PAROLE,0);
-                		
-                            Partie p = btnParole.getPartie();
+        			{	
+                		partie.do_action( ActionUtilisateur.PAROLE,partie.getTourDe(),0);
+                
 
-                            setAll(p);  
+                            setAll(partie);  
                             
-                            flop1.setCarte(p.getFlop1(), CLP, CHP);
-                            flop2.setCarte(p.getFlop2(), CLP, CHP);
-                            flop3.setCarte(p.getFlop3(), CLP, CHP);
-                            turn.setCarte(p.getTurn(), CLP, CHP);
-                            river.setCarte(p.getRiver(), CLP, CHP);
+                            setAffichage(partie);
                            
-                            
-                            Pot.setValeur(p.getPot());
-                            mise.setValeur(p.getJ1().getSolde());
-                            miseAdversaire.setValeur(p.getJ2().getSolde());
-                            
-                            if(partie.getJ1() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 371, 117, 35);
-                            }
-                            else if (partie.getJ2() == partie.getTourDe())
-                            {
-                            	tourDe.setBounds(149, 85, 117, 35);
-                            }
-
                     }
 
 				});
@@ -439,23 +310,28 @@ public class FP extends JFrame  {
 				carteAdversaire1 = new Carteimg(partie.getJ2().getMain()[0], CLG , CHG);
 				CardPanel.add(carteAdversaire1);
 				carteAdversaire1.setBounds(387, 12, CLG, CHG);
+				carteAdversaire1.clikListener(CLG, CHG);
 			
 				
 				carteAdversaire2 = new Carteimg(partie.getJ2().getMain()[1], CLG ,CHG);
 				carteAdversaire2.setBounds(455, 12, CLG, CHG);
 				CardPanel.add(carteAdversaire2);
+				carteAdversaire2.clikListener(CLG, CHG);
 				
 				carte1 = new Carteimg(partie.getJ1().getMain()[0], CLG, CHG);
 				carte1.setBounds(387, 371, CLG, CHG);
 				CardPanel.add(carte1);
+				carte1.clikListener(CLG, CHG);
 				
 				carte2 = new Carteimg(partie.getJ1().getMain()[1], CLG , CHG);
 				carte2.setBounds(455, 371, CLG, CHG);
 				CardPanel.add(carte2);
+				carte2.clikListener(CLG, CHG);
 				
 				Pot = new MisePanel(partie.getPot());
 				Pot.setBounds(606, 227, 92, 35);
 				CardPanel.add(Pot);
+				
 				//////////////////////////////////// Solde des 2 joueurs ////////////////////////////////////////
 				
 				mise = new MisePanel(partie.getJ1().getSolde());
@@ -497,7 +373,7 @@ public class FP extends JFrame  {
 				
 				CardPanel.add(tourDe);
 				
-				//////////////////////////////////// Boutton quitter detruit la partie ( ou sauvegarde) /////////////////////////////////
+				//////////////////////////////////// Boutton quitter et sauvegarde de la partie /////////////////////////////////
 				
 				// Ne pas oublier de faire perdre le joueur a qui le tour de jouer.
 				
@@ -523,58 +399,85 @@ public class FP extends JFrame  {
 				JButton btnNouvellePartie = new JButton("Nouvelle Partie");
 				btnNouvellePartie.setBounds(12, 39, 117, 29);
 				CardPanel.add(btnNouvellePartie);
-				btnQuitter.addMouseListener(new MouseAdapter() {
+				btnNouvellePartie.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						
-						
+						creerNouvellePartie();
+						setAffichage(partie);
 						
 					}
 				});
 				
 				////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		
-		
-				
-				
+	
 				
 				this.setVisible(true);
 	}
 	
-	public void setAffichage()
+	public void setAffichage(Partie p)
 	{
-		
+		 flop1.setCarteTable(p.getFlop1(), CLP, CHP);
+         flop2.setCarteTable(p.getFlop2(), CLP, CHP);
+         flop3.setCarteTable(p.getFlop3(), CLP, CHP);
+         turn.setCarteTable(p.getTurn(), CLP, CHP);
+         river.setCarteTable(p.getRiver(), CLP, CHP);
+        
+         
+         Pot.setValeur(p.getPot());
+         mise.setValeur(p.getJ1().getSolde());
+         miseAdversaire.setValeur(p.getJ2().getSolde());
+         
+         if(partie.getJ1() == partie.getTourDe())
+         {
+         	tourDe.setBounds(149, 371, 117, 35);
+         }
+         else if (partie.getJ2() == partie.getTourDe())
+         {
+         	tourDe.setBounds(149, 85, 117, 35);
+         }
 	}
 	
-	/**
-	 * 
-	 * @return le bouton miser
-	 */
+	public void creerNouvellePartie()
+	{
+		partie = new Partie();
+		//initilisation de la partie avec les donnees parametre
+		partie.getJ1().setNom(parametre.getName1());
+		partie.getJ1().setSolde(parametre.getSolde1());
+		partie.getJ2().setNom(parametre.getName2());
+		partie.getJ2().setSolde(parametre.getSolde2());
+		
+		// Statde de binde 
+		partie.Blinde();	
+		
+		//Initialisation de la vue.
+		mise.setValeur(partie.getJ1().getSolde());
+		miseAdversaire.setValeur(partie.getJ2().getSolde());
+		Pot.setValeur(partie.getPot());
+		namePanel1.setValeur(partie.getJ1().getNom());
+		namePanel2.setValeur(partie.getJ2().getNom());
+		carteAdversaire1.setCarteFaceCache(partie.getJ2().getMain()[0], CLG , CHG);
+		carteAdversaire2.setCarteFaceCache(partie.getJ2().getMain()[1], CLG , CHG);
+		carte1.setCarteFaceCache(partie.getJ1().getMain()[0], CLG , CHG);
+		carte2.setCarteFaceCache(partie.getJ1().getMain()[1], CLG , CHG);
+		
+		//envoie de la partie a tout les bouttons (afin que ceux ci sache qu'elle est l'etat de la partie.
+		setAll(partie);
+	}
+	
+	
 	
 	public JButton getBtnMiser() {
 		return BtnMiser;
 	}
 
-	/**
-	 * 
-	 * @return le bouton Parole
-	 */
 	public JButton getBtnParole() {
 		return btnParole;
 	}
-	
-	/**
-	 * 
-	 * @return le bouton Suivre
-	 */
+
 	public JButton getBtnSuivre() {
 		return btnSuivre;
 	}
-	
-	/**
-	 * 
-	 * @return le bouton passer
-	 */
 
 	public JButton getBtnPasser() {
 		return btnPasser;
@@ -583,128 +486,72 @@ public class FP extends JFrame  {
 	public JSpinner getSpinner() {
 		return spinner;
 	}
-	
-	/**
-	 * 
-	 * @return la troisième carte du flop
-	 */
 
 
 	public Carteimg getFlop3() {
 		return flop3;
 	}
-	
-	/**
-	 * 
-	 * @return la deuxième carte du flop
-	 */
+
 
 	public Carteimg getFlop2() {
 		return flop2;
 	}
 
-	/**
-	 * 
-	 * @return la premère carte du flop
-	 */
 
 	public Carteimg getFlop1() {
 		return flop1;
 	}
-	
-	/**
-	 * 
-	 * @return la carte du tournant
-	 */
+
 
 	public Carteimg getTurn() {
 		return turn;
 	}
-	
-	/**
-	 * 
-	 * @return la carte de la rivière
-	 */
+
 
 	public Carteimg getRiver() {
 		return river;
 	}
-	
-	/**
-	 * 
-	 * @return la première carte en main
-	 */
+
 
 	public Carteimg getCarte1() {
 		return carte1;
 	}
-	
-	/**
-	 * 
-	 * @return la deuxième carte en main
-	 */
+
 
 	public Carteimg getCarte2() {
 		return carte2;
 	}
-	/**
-	 * 
-	 * @return la première carte de l'adversaire
-	 */
+
 
 	public Carteimg getCarteAdversaire1() {
 		return carteAdversaire1;
 	}
-	
-	/**
-	 * 
-	 * @return la deuxième carte de l'adversaire
-	 */
 
 
 	public Carteimg getCarteAdversaire2() {
 		
 		return carteAdversaire2;
 	}
-	/**
-	 * 
-	 * @return la mise
- 	 */
+
 	public int getMise() {
 		return mise.getValeur();
 	}
-	/**
-	 * 
-	 * @return le pot
- 	 */
 
 	public int getPot() {
 		return Pot.getValeur();
 	}
-	/**
-	 * 
-	 * @return la mise de l'adversaire
-	 */
+
 
 	public int getMiseAdversaire() 
 	{
 		return miseAdversaire.getValeur();
 	}
 	
-	/**
-	 * 
-	 * @return la fenetre de parametre
-	 */
-	
 	public Parametre getParamtre()
 	{
 		return parametre;
 	}
 	
-	/**
-	 * <p> Mets à jour la partie de FP et de tous ses boutons <p>
-	 * @param p l'état actuel de la partie
-	 */
 	
 	public void setAll(Partie p)
 
@@ -722,11 +569,6 @@ public class FP extends JFrame  {
             parametre.setPartie(p);
 
     }
-	
-	/**
-	 * <p>Sauvegarde la partie dans le fichier save</p>
-	 * @param p : l'état actuel de la partie
-	 */
 	
 	public void sauver(Partie p)
     {
@@ -746,10 +588,6 @@ public class FP extends JFrame  {
             
             
     }
-	/**
-	 * <p>Charge la partie</p>
-	 * @return l'état dans lequel la partie a été sauvegardée
-	 */
     
     public Partie charger()
     {            
@@ -777,7 +615,6 @@ public class FP extends JFrame  {
             return p;
     } 
 		
-
 		public static void main(String[] args) {
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
