@@ -92,7 +92,7 @@ public class Carteimg extends JLabel{
 	
 	}
 	
-	public void clikListener(int width , int height ) {
+	public void clikListener(final int  width ,final int height ) {
 		
 		this.addMouseListener(new MouseAdapter(){
 
