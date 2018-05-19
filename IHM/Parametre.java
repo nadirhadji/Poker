@@ -1,6 +1,7 @@
 package IHM;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -29,42 +30,10 @@ import Modele.Partie;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-/**
- * 
- * <p>Sert à afficher un menu parametre<br>
- * Hérite de JPanel<br> </p>
- 
-  * <p> NomJoueur1 : sert à afficher le nom du joueur 1 <br>
-	 * NomJoueur2 : sert à afficher le nom du joueur 2 <br>
-	 * SoldeJ1 : sert à afficher le solde du joueur 1 <br>	 
-	 * SoldeJ2 : sert à afficher le solde du joueur 2 <br>
-	 * nom1 : sert à mettre à jour le nom du joueur 1<br>
-	 * nom2 : sert à mettre à jour le nom du joueur 2<br>
-	 * spinner_1 : sert à mettre à jour le solde du joueur 1<br>
-	 * spinner_2 : sert à mettre à jour le solde du joueur 2 <br>
-	 * SpinnerSolde1 : initialise la valeure du solde du joueur 1 à 5000<br>
-	 * SpinnerSolde2 : initialise la valeure du solde du joueur 2 à 5000<br>
-	 * OK  : sert au déclenchement des MouseEvent<br>
-	 * partie : sert à mettre à jour la partie </p>
-	 * @see Partie
-	 * @see NamePanel
-	 * @see JTextField
-	 * @see JSpinner
-	 * @see JButton
-	 * @see JPanel
- *
- */
 
 public class Parametre extends JPanel{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	/**
-	
-	 */
 
+	Image image;
 	NamePanel NomJoueur1;
 	NamePanel NomJoueur2;
 	NamePanel SoldeJ1;
@@ -80,13 +49,6 @@ public class Parametre extends JPanel{
 	static JButton OK;
 	Partie partie;
 	
-	/**
-	 * <p>Initialise tous les attributs<br>
-	 * Créer les boutons, les mouseEvent et les zones de texte nécessaire au  parametrage de la partie <br>
-	 * Affiche les JPanel nécessaires</p>
-	 * 
-	 */
-	
 	public Parametre() 
 	
 	{
@@ -95,26 +57,26 @@ public class Parametre extends JPanel{
 		
 		NomJoueur1 = new NamePanel("Nom joueur 1");
 		NomJoueur1.setBorder(new LineBorder(new Color(255, 255, 255), 2));
-		NomJoueur1.setFont(new Font("Arial", Font.BOLD, 20));
-		NomJoueur1.setBounds(218, 113, 156, 52);
+		NomJoueur1.setFont(new Font("Cooper Black", Font.BOLD,20));
+		NomJoueur1.setBounds(218, 113, 165, 52);
 		this.add(NomJoueur1);
 		
-		NomJoueur2 = new NamePanel("Nom Joueur 2");
+		NomJoueur2 = new NamePanel("Nom joueur 2");
 		NomJoueur2.setBorder(new LineBorder(new Color(255, 255, 255), 2));
-		NomJoueur2.setFont(new Font("Arial", Font.BOLD, 20));
-		NomJoueur2.setBounds(218, 177, 156, 52);
+		NomJoueur2.setFont(new Font("Cooper Black", Font.BOLD, 20));
+		NomJoueur2.setBounds(218, 177, 165, 52);
 		this.add(NomJoueur2);
 		
-		SoldeJ1 = new NamePanel("Solde Joueur 1");
+		SoldeJ1 = new NamePanel("Solde joueur 1");
 		SoldeJ1.setBorder(new LineBorder(new Color(255, 255, 255), 2));
-		SoldeJ1.setFont(new Font("Arial", Font.BOLD, 20));
-		SoldeJ1.setBounds(218, 241, 156, 52);
+		SoldeJ1.setFont(new Font("Cooper Black", Font.BOLD, 20));
+		SoldeJ1.setBounds(218, 241, 165, 52);
 		this.add(SoldeJ1);
 		
-		SoldeJ2 = new NamePanel("Solde Joueur 2");
+		SoldeJ2 = new NamePanel("Solde joueur 2");
 		SoldeJ2.setBorder(new LineBorder(new Color(255, 255, 255), 2));
-		SoldeJ2.setFont(new Font("Arial", Font.BOLD, 20));
-		SoldeJ2.setBounds(218, 305, 156, 52);
+		SoldeJ2.setFont(new Font("Cooper Black", Font.BOLD, 20));
+		SoldeJ2.setBounds(218, 305, 165, 52);
 		this.add(SoldeJ2);
 		
 		
@@ -125,7 +87,7 @@ public class Parametre extends JPanel{
 		
 		nom1.getDocument().addDocumentListener(new DocumentListener(){
 
-			
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				
 				Joueur1 = nom1.getText();
@@ -133,13 +95,13 @@ public class Parametre extends JPanel{
 			
 			}
 
-			
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
-			
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				
 				
@@ -160,20 +122,20 @@ public class Parametre extends JPanel{
 
 		nom2.getDocument().addDocumentListener(new DocumentListener(){
 
-			
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				Joueur2 = nom2.getText();
 				System.out.println(Joueur2);
 
 			}
 
-			
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
 
-			
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				
 				
@@ -237,12 +199,8 @@ public class Parametre extends JPanel{
 	}
 	
 		
-	/**
-	 * <p>Créer un MouseEvent permetant le retour à l'écran d'accueil
-	 * @param acceuil écran affiché
-	 * @param parametre écran fermé
-	 */
-	public static void actionOK(final JPanel acceuil ,final Parametre parametre)
+	
+	public static void actionOK(JPanel acceuil , Parametre parametre)
 	{
 		OK.addMouseListener(new MouseAdapter() {
 			@Override
@@ -256,14 +214,6 @@ public class Parametre extends JPanel{
 			
 	}
 	
-	/**
-	 * <p>Redimensionne un image</p>
-	 * @param image : image à redimensionner
-	 * @param width : longueur de l'image voulue
-	 * @param height : hauteur de l'image voulue
-	 * @return L'image aux dimentions souhaitées
-	 */
-	
 	public Image redimensionner(Image image , int width , int height)
 	{
 	  BufferedImage	img = new BufferedImage(width , height , BufferedImage.TYPE_INT_ARGB);
@@ -275,13 +225,13 @@ public class Parametre extends JPanel{
 	  return img;
 	
 	}
-	/*
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
 		try
 		{
-			this.image = ImageIO.read(new File("Image/parametre.jpg"));
+			this.image = ImageIO.read(new File("Image/parametre1.jpg"));
 	        image = this.redimensionner(image, this.getWidth(), this.getHeight());
 			g.drawImage(image, 0, 0, this);
 		}
@@ -289,53 +239,29 @@ public class Parametre extends JPanel{
 		{
 			e.printStackTrace();
 		}
+		
 	}
-	*/
 	
-	/**
-	 * 
-	 * @return le premier spinnerSolde 
-	 */
 	
 	public int getSolde1()
 	{
 		return SpinnerSolde1; 
 	}
 	
-	/**
-	 * 
-	 * @return le deuxième SpinnerSolde
-	 */
-	
 	public int getSolde2()
 	{
 		return SpinnerSolde2;
 	}
-	
-	/**
-	 * 
-	 * @return le Joueur 1
-	 */
 	
 	public String getName1()
 	{
 		return Joueur1;
 	}
 	
-	/**
-	 * 
-	 * @return le joueur 2
-	 */
-	
 	public String getName2()
 	{
 		return Joueur2;
 	}
-	
-	/**
-	 * <p>Mets à jour la partie
-	 * @param partie : nouvel état de la partie
-	 */
 	
 	public void setPartie(Partie partie)
 	{

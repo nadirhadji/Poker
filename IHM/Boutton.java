@@ -22,103 +22,73 @@ import Modele.Partie;
 
 import javax.swing.JButton;
 
-/**
- * <p>Bouton est une classe permettant de créer les boutons avec lesquel l'utilisateur va pouvoir jouer <br>
- * Elle hérite de JButton</p>
- * @see IHM
- * @see JButton
- */
 public class Boutton extends JButton {
 
 	private static final long serialVersionUID = 1L;
-	/**
-	 * sert à modifier la partie en fonction des actions effectuées 
-	 * @see Partie
-	 */
+	
 	private Partie partie;
-	/**
-	 * ne sert qu'au bouton miser de l'IHM
-	 */
 	private int mise;
+	private Color couleurBas = Color.WHITE;
+	private Color couleurNormale=Color.BLACK;
+	private final Font inactif = new Font("MS Gothic", Font.BOLD, 16);
+	private Font font = inactif;
 		
-	/**
-	 * <p>Initialise les parametres, appelle son super constructeur</p>
-	 * @param partie la partie en cours
-	 * @param x le nom du bouton
-	 * @param mise toujours initalisée à 0 dans l'IHM
-	 */
 	public Boutton(Partie partie , String x, int mise )
 	{
 		super();
 		this.partie = partie;
 		this.mise = mise;
 		this.setText(x);
-		setBackground(new Color(242, 1, 46));
+		this.setBackground(new Color(191, 209, 229));
 	}
-	/**
-	 * <p>Crée une serie de MouseEvent, qui permetttent de moifier la partie </p>
-	 * @param j  le Joueur effectuant l'action
-	 * @param aa une ActionUtilisateur, unique à chaque bouton, elle définit quelle action effectue le joueur
-	 * @param somme  la somme à miser, utile uniquement pour le bouton miser, pour les autres, elle vaut 0
-	 * @see ActionUtilisateur
-	 * 
-	 */
-	public void act(final Joueur j , final  ActionUtilisateur aa , final int somme)
-	{
 	
-		this.addMouseListener(new MouseAdapter() {
-			
-			public void mouseEntered(MouseEvent e) {
-				if(isEnabled()){
-					setBackground(Color.WHITE);
-				}
-			}
-			
-			@Override
-			public void mouseExited(MouseEvent e) {
-				if(isEnabled()){
-					setBackground(new Color(242, 1, 46));
-				}
-			}
-			
-			
-			@Override
-			public void mouseClicked(MouseEvent e) 
-			{
-			
-				partie.do_action(aa, j, somme);
-				
-			}
-			
-			});
+	public Boutton(String x )
+	{
+		super();
+		this.setText(x);
+		this.setBackground(new Color(191, 209, 229));
+
+	}
+	
+	public void paintComponent(Graphics g){
+		Paint paint;
+		
+		Graphics2D g2d;
+		if (g instanceof Graphics2D) {
+			g2d = (Graphics2D) g;
+		}
+		else {
+			System.out.println("Error");
+			return;
+		}
+		
+		paint = new GradientPaint(0,0, couleurBas, getWidth(), 70, getBackground());
+		g2d.setPaint(paint);
+		g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 10, 10);
+		g2d.setColor(couleurNormale);
+		g2d.setStroke(new BasicStroke(1));
+		g2d.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 10, 10);
+		g.setColor(getForeground());
+		g.setFont(font);
+		
+		FontMetrics fm = g2d.getFontMetrics();
+		int x = (this.getWidth() - fm.stringWidth(getText())) / 2;
+		int y = (fm.getAscent() + (this.getHeight() -(fm.getAscent() + fm.getDescent())) / 2);
+		g2d.drawString(getText(), x, y);
 		
 	}
-	
-	/**
-	 * <p>Mets a jour la mise </p>
-	 * @param mise nouvelle valeure de la mise
-	 */
+
 	
 	public void setMise(int mise)
 	{
 		this.mise = mise;
 	}
 	
-	/**
-	 * <p>Mets à jour la partie</p>
-	 * @param partie nouvel état de la partie
-	 */
-	
     public void setPartie(Partie partie)
     {
             this.partie = partie;
     }
-    /**
-     * <p> Convertie une chaine de caractère en ActionUtilisateur
-     * @param msg chatine à convertir
-     * @return une ActionUtilisateur
-     * @see ActionUtilisateur
-     */
+
 
 	public ActionUtilisateur conversion(String msg)
 	{
@@ -133,10 +103,7 @@ public class Boutton extends JButton {
 
     }
 
-    /**
-     * 
-     * @return la partie
-     */
+    
 
     public Partie getPartie()
 

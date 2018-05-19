@@ -15,41 +15,16 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import Modele.Partie;
-/**
- *
- * <p>Accueil est une classe permettant d'aficher une fenetre d'accueil dans le cadre de l'interface graphique <b>
- * Elle herite de JPanel </p>
- * @see IHM
- * @see JPanel
- *
- */
+
 public class Acceuil extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * image de fond 
-	 */
-	
 	private Image image;
-	/**
-	 * bouton "jouer"
-	 */
-	private JButton jouer;
+	private Boutton jouer;
+	private Boutton parametrer;
+	private Boutton continuer;
 	
-	/**
-	  *bouton "parametrer"
-	 */
-	private JButton parametrer;
-	/**
-	 *  bouton "continuer" 
-	 */
-	private JButton continuer;
-	/**
-	 * <p>Ce constructeur appelle son super constructeur <br>
-	 * Il initialise les boutons, leur donne leur taille et leur nom </p>
-	 * 
-	 */
 	public Acceuil() 
 	{
 		
@@ -57,31 +32,35 @@ public class Acceuil extends JPanel {
 		
 		this.setLayout(null);
 		
-		continuer = new JButton("Continuer partie");
+		continuer = new Boutton("Continuer partie");
 		
 		continuer.setBounds(344, 90, 174, 75);
 		this.add(continuer);
 		
 		
-		jouer = new JButton("Jouer");
+		jouer = new Boutton("Nouvelle partie");
 		
 		jouer.setBounds(344, 181, 174, 75);
 		this.add(jouer);
 		
-		parametrer = new JButton("Parametre");
+		parametrer = new Boutton("Paramètres");
 		
-		parametrer.setBounds(350, 284, 168, 75);
+		parametrer.setBounds(344, 272 , 174, 75);
 		this.add(parametrer);
+		
+		try
+		{
+			
+			this.image = ImageIO.read(new File("Image/Acceuil.jpg"));
+	        
+		}
+		catch(IOException e) 
+		{
+			e.printStackTrace();
+		}
+		
 
 	}
-	
-	/**
-	 * 
-	 * @param image  l'image a redimentionner
-	 * @param width  la largeure de l'image voulue
-	 * @param height la hauteur de l'image voulue
-	 * @return l'image passée en paramètre, redimmentionnée à la taille voulue
-	 */
 	
 	public Image redimensionner(Image image , int width , int height)
 	{
@@ -95,31 +74,31 @@ public class Acceuil extends JPanel {
 	
 	}
 	
+	
+	
 	public void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		try
-		{
-			
-			this.image = ImageIO.read(new File("Image/background2.jpg"));
-	        image = this.redimensionner(image, this.getWidth(), this.getHeight());
+		
+	        image = redimensionner(image, this.getWidth(), this.getHeight());
 			g.drawImage(image, 0, 0, this);
-		}
-		catch(IOException e) 
-		{
-			e.printStackTrace();
-		}
+		
 	}
 	
-	/**
-	 * <p> Créer un mouseEvent qui permet de passe d'un JPanel à l'autre <p>
-	 * @param acceuil  premier JPanel, celui dans lequel on se trouve au moment du clique
-	 * @param jeu		deuxième JPanel, celui qui apparait après le clique
-	 */
 	
-	public void actionJouer(final  Acceuil acceuil , final JPanel jeu )
+	public void actionJouer( Acceuil acceuil ,JPanel jeu )
 	{
 		jouer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+		
+			acceuil.setVisible(false);
+			jeu.setVisible(true);
+			
+			}
+			});
+		
+		continuer.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 		
@@ -132,13 +111,7 @@ public class Acceuil extends JPanel {
 		
 	}
 	
-	/**
-	 * <p> Créer un mouseEvent qui permet de passe d'un JPanel à l'autre <p>
-	 * @param acceuil  premier JPanel, celui dans lequel on se trouve au moment du clique
-	 * @param parametre		deuxième JPanel, celui qui apparait après le clique
-	 */
-	
-	public void actionJouer( final  Acceuil acceuil , final Parametre parametre )
+	public void actionJouer( Acceuil acceuil ,Parametre parametre )
 	{
 		parametrer.addMouseListener(new MouseAdapter() {
 			@Override
@@ -152,20 +125,14 @@ public class Acceuil extends JPanel {
 			
 	}
 	
-	/**
-	 * 
-	 * @return le bouton continuer
-	 */
+	
 	
 	public JButton getContinuer()
 	{
 		return continuer;
 	}
-	/**
-	 * 
-	 * @return le bouton jouer
-	 */
-	public JButton getButton()
+	
+	public JButton getJouer()
 	{
 		return jouer;
 	}
